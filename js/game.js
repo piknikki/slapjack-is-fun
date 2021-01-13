@@ -14,8 +14,6 @@ class Game {
 
   }
 
-  // todo function to keep track of central pile (player deals into it, slaps take out
-
   dealDeckToPlayers() {
     // splits deck of 52 cards -- 1/2 to each player's hand, randomized
   }
@@ -25,15 +23,24 @@ class Game {
 
   }
 
+  // todo function to keep track of central pile (player deals into it, slaps take out
+  adjustMiddlePile() {
+    // when shuffle and deal are done, this will be 0
+    // this.playerDealsCard() puts cards into this.centerPile array
+    // keep track of order --> probably use unshift to put on top, index 0
+    // keep track of indexes 0-2 and look for doubles and sandwiches
+  }
+
   playerDealsCard() {
     // puts card in middle pile
   }
 
   slap() {
-    // if Jack
-    // if double
-    // if sandwich
-    // else badslap
+    // if Jack --> player gets centerPile array added to back end of their hand (use push)
+    // if double --> player gets centerPile array added to back end of their hand (use push)
+    // if sandwich --> player gets centerPile array added to back end of their hand (use push)
+    // else badslap --> first card in player's hand (use shift to remove) gets put on back of
+    // other player's hand (use push)
   }
 
   determineWinner() {
