@@ -1,0 +1,58 @@
+
+/* *** main body *** */
+body {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+    font-family: 'Raleway', sans-serif;
+}
+
+header {
+    display: flex;
+    flex-flow: row nowrap;
+    height: 100px;
+    align-items: center;
+    font-size: 2em;
+}
+
+main {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+/* *** cards & their images *** */
+section {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    margin: 10px 20px;
+}
+
+.title {
+    font-size: 1.2em;
+    font-weight: 300;
+}
+
+img {
+    width: 200px;
+    border: 2px solid #CB68E3;
+    border-radius: 10px;
+}
+
+/* *** mobile *** */
+@media screen and (max-width: 800px) {
+    main {
+        margin: 0 20px;
+    }
+
+    img {
+        width: 100px;
+        border: 2px solid #CB68E3;
+        border-radius: 10px;
+    }
+}
