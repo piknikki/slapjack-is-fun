@@ -42,7 +42,7 @@ class Game {
 
   }
 
-  // todo function to keep track of central pile (player deals into it, slaps take out
+  // todo -- function to keep track of central pile
   adjustMiddlePile() {
     // when shuffle and deal are done, this will be 0
     // this.playerDealsCard() puts cards into this.centerPile array
@@ -89,10 +89,6 @@ class Game {
 
     this.determineWinner()
     }
-    // if double --> player gets centerPile array added to back end of their hand (use push)
-    // if sandwich --> player gets centerPile array added to back end of their hand (use push)
-    // else badslap --> first card in player's hand (use shift to remove) gets put on back of
-    // other player's hand (use push)
   }
 
   determineWinner() {
