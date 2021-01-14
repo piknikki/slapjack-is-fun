@@ -63,6 +63,10 @@ main {
   box-shadow: 0 0 15px 15px #7935F7;
 }
 
+.center-pile__startbtn--instruc {
+  margin: 10px;
+  font-size: 1.2em;
+}
 .center-pile__img--highlight {
   box-shadow: 0 0 15px 15px #399BD7;
 }

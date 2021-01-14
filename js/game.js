@@ -33,7 +33,12 @@ class Game {
 
   switchTurns() {
     // if odd player1, if even player2
-
+    if (this.turnCount % 2 === 0) {
+      this.turn = this.player2
+    } else {
+      this.turn = this.player1
+    }
+    this.turnCount++
   }
 
   // todo function to keep track of central pile (player deals into it, slaps take out
