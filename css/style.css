@@ -4,7 +4,6 @@
   padding: 0;
 }
 
-/* *** main body *** */
 body {
   display: flex;
   flex-flow: column nowrap;
@@ -29,23 +28,37 @@ main {
   align-items: center;
 }
 
-/* *** cards & their images *** */
-section {
+.player1,
+.player2,
+.center-pile {
   display: flex;
   flex-flow: column;
   align-items: center;
   margin: 10px 20px;
 }
-
-.title {
+.player1__title,
+.player2__title,
+.center-pile__title {
   font-size: 1.2em;
   font-weight: 300;
 }
-
-img {
+.player1__img,
+.player2__img,
+.center-pile__img {
   width: 200px;
   border: 2px solid #CB68E3;
   border-radius: 10px;
+  margin: 30px 0;
+}
+.player1__img--active,
+.player2__img--active,
+.center-pile__img--active {
+  box-shadow: 0 0 15px 15px #FEC830;
+}
+.player1__wins,
+.player2__wins,
+.center-pile__wins {
+  margin: 5px;
 }
 
 /* *** mobile *** */

@@ -1,4 +1,5 @@
 $player1-color: #FEC830;
+$player2-color: #7935F7;
 
 * {
   box-sizing: border-box;
@@ -6,7 +7,6 @@ $player1-color: #FEC830;
   padding: 0;
 }
 
-/* *** main body *** */
 body {
   display: flex;
   flex-flow: column nowrap;
@@ -31,58 +31,44 @@ main {
   align-items: center;
 }
 
-.player1 {
-  &__title {
-
-  }
-
-  &__deck {
-
-  }
-}
-
+.player1,
+.player2,
 .center-pile {
-  &__title {
-
-  }
-
-  &__deck {
-
-  }
-
-  &__startbtn {
-
-  }
-}
-
-.player2 {
-  &__title {
-
-  }
-
-  &__deck {
-
-  }
-}
-
-
-/* *** cards & their images *** */
-section {
   display: flex;
   flex-flow: column;
   align-items: center;
   margin: 10px 20px;
+
+  &__title {
+    font-size: 1.2em;
+    font-weight: 300;
+  }
+
+  &__deck {
+
+  }
+
+  &__img {
+    width: 200px;
+    border: 2px solid #CB68E3;
+    border-radius: 10px;
+    margin: 30px 0;
+
+    &--active {
+      box-shadow: 0 0 15px 15px #FEC830;
+    }
+  }
+
+  &__wins {
+    margin: 5px;
+  }
+
 }
 
-.title {
-  font-size: 1.2em;
-  font-weight: 300;
-}
+.center-pile {
+  &__startbtn {
 
-img {
-  width: 200px;
-  border: 2px solid #CB68E3;
-  border-radius: 10px;
+  }
 }
 
 /* *** mobile *** */
