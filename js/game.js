@@ -4,7 +4,7 @@ class Game {
     this.player2 = new Player('player2')
     this.wholeDeck = cardNames // this comes from the data file, still not sure about how to use this correctly
     this.centerPile = []
-    this.turn = null
+    this.turn = 'player1'
     this.winsPlayer1 = this.player1.wins
     this.winsPlayer2 = this.player2.wins
     this.turnCount = 1
@@ -32,12 +32,13 @@ class Game {
 
   alternateTurns() {
     // if odd player1, if even player2
+    // this.turnCount++
     if (this.turnCount % 2 === 0) {
-      this.turn = this.player2
+      this.turn = 'player2'
     } else {
-      this.turn = this.player1
+      this.turn = 'player1'
     }
-    this.turnCount++
+
   }
 
   // todo function to keep track of central pile (player deals into it, slaps take out
@@ -48,8 +49,10 @@ class Game {
     // keep track of indexes 0-2 and look for doubles and sandwiches
   }
 
-  playerDealsCard() {
+  playerDealsCard(player) {
     // puts card in middle pile
+    var topCard = this[player].hand.shift()
+    this.centerPile.unshift(topCard);
   }
 
   slap() {
