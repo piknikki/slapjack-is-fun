@@ -5,6 +5,7 @@ class Game {
     this.wholeDeck = cardNames // this comes from the data file, still not sure about how to use this correctly
     this.centerPile = []
     this.turn = 'player1'
+    this.winner = null
     this.winsPlayer1 = this.player1.wins
     this.winsPlayer2 = this.player2.wins
     this.turnCount = 1
@@ -41,7 +42,7 @@ class Game {
 
   }
 
-  // todo function to keep track of central pile (player deals into it, slaps take out
+  // todo -- function to keep track of central pile
   adjustMiddlePile() {
     // when shuffle and deal are done, this will be 0
     // this.playerDealsCard() puts cards into this.centerPile array
@@ -55,20 +56,57 @@ class Game {
     this.centerPile.unshift(topCard);
   }
 
-  slap() {
+  slap(player) {
     // if Jack --> player gets centerPile array added to back end of their hand (use push)
-    // if double --> player gets centerPile array added to back end of their hand (use push)
-    // if sandwich --> player gets centerPile array added to back end of their hand (use push)
-    // else badslap --> first card in player's hand (use shift to remove) gets put on back of
-    // other player's hand (use push)
+    var cardOne = this.centerPile[0].split('-')[1]
+    var cardTwo = this.centerPile[1].split('-')[1]
+    var cardThree = this.centerPile[2].split('-')[1]
+    console.log(player)
+
+    if (cardOne === 'jack') {
+      // jack message
+      this.centerPile.forEach(card => this[player].hand.push(card))
+      this.centerPile = []
+      centerDeck.innerHTML = '';
+    } else if (cardOne === cardTwo) {
+      // double message
+      this.centerPile.forEach(card => this[player].hand.push(card))
+      this.centerPile = []
+      centerDeck.innerHTML = '';
+    } else if (cardOne === cardThree) {
+      // sandwich message
+      this.centerPile.forEach(card => this[player].hand.push(card))
+      this.centerPile = []
+      centerDeck.innerHTML = '';
+    } else {
+      // badslap
+      var badslap = this[player].hand.slice(0, 1)
+      if (this[player] === 'player1') {
+        this.player2.hand.push(badslap)
+      } else if (this[player] === 'player2') {
+        this.player2.hand.push(badslap)
+      }
+
+    this.determineWinner()
+    }
   }
 
   determineWinner() {
     // if player has all cards in their hand, they win
+    console.log(this.player1.hand)
+    console.log(this.player2.hand)
+    if (this.player1.hand.length === 52) {
+      this.winner = 'player1'
+      this.updateWinCount(this.winner)
+    } else if (this.player2.hand.length === 52) {
+      this.winner = 'player2'
+      this.updateWinCount(this.winner)
+    }
   }
 
   updateWinCount(player) {
     // player passed in, increase their count
+    this[player].wins++
   }
 
   reset() {
