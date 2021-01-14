@@ -13,8 +13,10 @@ var player2DeckSelector = document.querySelector('.player2__img');
 var centerDeck = document.querySelector('.center-pile__deck');
 
 startGameButton.addEventListener('click', runNewGame);
+
 document.addEventListener('keyup', function(event) {
   centerDeck.classList.remove('hidden');
+
   switch (event.key) {
     case 'q':
       // player1 deal -- take top card and put it on center pile -- if it's your turn
@@ -26,7 +28,6 @@ document.addEventListener('keyup', function(event) {
       } else {
         alert(`It's the other player's turn.`)
       }
-      console.log(game.centerPile[0].split('-')[1])
       game.turnCount++
       game.alternateTurns();
       break;
@@ -56,6 +57,12 @@ document.addEventListener('keyup', function(event) {
   }
 
 });
+
+function checkCenterPile(arr) {
+  if (arr === []) {
+    centerDeck.innerHTML = ''
+  }
+}
 
 function runNewGame() {
   startGameButton.classList.add('hidden');
