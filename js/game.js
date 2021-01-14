@@ -2,7 +2,7 @@ class Game {
   constructor(newGame) {
     this.player1 = new Player('player1')
     this.player2 = new Player('player2')
-    this.wholeDeck = []
+    this.wholeDeck = cardNames // this comes from the data file, still not sure about how to use this correctly
     this.centerPile = []
     this.turn = null
     this.winsPlayer1 = this.player1.wins
@@ -11,11 +11,24 @@ class Game {
   }
 
   shuffleCards() {
+    // currentIndex is length of array (decrements each iteration)
+    //   plus declaration of other vars
+    var currentIndex = this.wholeDeck.length, temp, rand;
+    while (currentIndex !== 0) {
+      rand = Math.floor(Math.random() * currentIndex); // changes every cycle, based on number of array spots that haven't been shuffled yet
+      currentIndex -= 1;
 
+      temp = this.wholeDeck[currentIndex]; // put current in temp
+      this.wholeDeck[currentIndex] = this.wholeDeck[rand]; // put rand at current
+      this.wholeDeck[rand] = temp; // put temp at rand
+    }
+    return this.wholeDeck;
   }
 
   dealDeckToPlayers() {
     // splits deck of 52 cards -- 1/2 to each player's hand, randomized
+    this.player1.hand.push(this.wholeDeck.splice(0, 26));
+    this.player2.hand.push(this.wholeDeck.splice(0, 26));
   }
 
   switchTurns() {
