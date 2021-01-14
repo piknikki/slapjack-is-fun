@@ -71,15 +71,48 @@ main {
   }
 }
 
+.hidden {
+  display: none;
+}
+
 /* *** mobile *** */
+@media screen and (max-width: 1000px) {
+  header {
+    padding: 40px 20px;
+    height: auto;
+  }
+}
+
 @media screen and (max-width: 800px) {
   main {
     margin: 0 20px;
   }
 
-  img {
-    width: 100px;
-    border: 2px solid #CB68E3;
-    border-radius: 10px;
+  .player1,
+  .player2,
+  .center-pile {
+    &__img {
+      width: 100px;
+    }
+  }
+
+}
+@media screen and (max-width: 460px) {
+  main {
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+  }
+
+  .player1,
+  .player2,
+  .center-pile {
+    &__img {
+      margin: 10px 0;
+
+      &--active {
+        box-shadow: 0 0 5px 5px #FEC830;
+      }
+    }
   }
 }

@@ -5,3 +5,12 @@
 // event listener on keys for slap
 // event listener on keys for deal
 
+var startGameButton = document.querySelector('.center-pile__startbtn');
+
+startGameButton.addEventListener('click', runNewGame);
+
+function runNewGame() {
+  // game instantiation goes here
+  document.querySelector('.center-pile__deck').classList.toggle('hidden');
+  document.querySelector('.center-pile__startbtn').classList.add('hidden');
+}
