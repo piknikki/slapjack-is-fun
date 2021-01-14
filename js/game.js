@@ -1,9 +1,8 @@
 class Game {
   constructor(newGame) {
-    console.log(cardNames)
     this.player1 = new Player('player1')
     this.player2 = new Player('player2')
-    this.wholeDeck = cardNames
+    this.wholeDeck = cardNames // this comes from the data file, still not sure about how to use this correctly
     this.centerPile = []
     this.turn = null
     this.winsPlayer1 = this.player1.wins
@@ -28,6 +27,8 @@ class Game {
 
   dealDeckToPlayers() {
     // splits deck of 52 cards -- 1/2 to each player's hand, randomized
+    this.player1.hand.push(this.wholeDeck.splice(0, 26));
+    this.player2.hand.push(this.wholeDeck.splice(0, 26));
   }
 
   switchTurns() {
