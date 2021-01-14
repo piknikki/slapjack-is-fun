@@ -11,6 +11,8 @@ startGameButton.addEventListener('click', runNewGame);
 
 function runNewGame() {
   // game instantiation goes here
+
+  var game = new Game()
   document.querySelector('.center-pile__deck').classList.toggle('hidden');
   document.querySelector('.center-pile__startbtn').classList.add('hidden');
 }

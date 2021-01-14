@@ -1,5 +1,6 @@
 $player1-color: #FEC830;
 $player2-color: #7935F7;
+$center-pile-color: #399BD7;
 
 * {
   box-sizing: border-box;
@@ -50,19 +51,39 @@ main {
 
   &__img {
     width: 200px;
-    border: 2px solid #CB68E3;
+    //border: 2px solid #CB68E3;
     border-radius: 10px;
     margin: 30px 0;
-
-    &--active {
-      box-shadow: 0 0 15px 15px #FEC830;
-    }
   }
 
   &__wins {
     margin: 5px;
   }
 
+}
+
+.player1 {
+  &__img {
+    &--highlight {
+      box-shadow: 0 0 15px 15px $player1-color;
+    }
+  }
+}
+
+.player2 {
+  &__img {
+    &--highlight {
+      box-shadow: 0 0 15px 15px $player2-color;
+    }
+  }
+}
+
+.center-pile {
+  &__img {
+    &--highlight {
+      box-shadow: 0 0 15px 15px $center-pile-color;
+    }
+  }
 }
 
 .center-pile {

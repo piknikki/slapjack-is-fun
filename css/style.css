@@ -46,19 +46,25 @@ main {
 .player2__img,
 .center-pile__img {
   width: 200px;
-  border: 2px solid #CB68E3;
   border-radius: 10px;
   margin: 30px 0;
-}
-.player1__img--active,
-.player2__img--active,
-.center-pile__img--active {
-  box-shadow: 0 0 15px 15px #FEC830;
 }
 .player1__wins,
 .player2__wins,
 .center-pile__wins {
   margin: 5px;
+}
+
+.player1__img--highlight {
+  box-shadow: 0 0 15px 15px #FEC830;
+}
+
+.player2__img--highlight {
+  box-shadow: 0 0 15px 15px #7935F7;
+}
+
+.center-pile__img--highlight {
+  box-shadow: 0 0 15px 15px #399BD7;
 }
 
 .hidden {
