@@ -21,23 +21,25 @@ document.addEventListener('keyup', function(event) {
       if (game.turn === 'player1') {
         game.playerDealsCard('player1')
         centerDeck.innerHTML = `
-        <img class="center-pile__img ${game.player1.id}__img--highlight" src="assets/${game.centerPile[0]}.png" alt="player card">
+        <img class="center-pile__img ${game.player1.id}__img--highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
       `
       } else {
         alert(`It's the other player's turn.`)
       }
+      console.log(game.centerPile[0].split('-')[1])
       game.turnCount++
       game.alternateTurns();
       break;
     case 'f':
       // player1 slap
+      game.slap('player1')
       break;
     case 'p':
       // player2 deal take top card and put it on center pile
       if (game.turn === 'player2') {
         game.playerDealsCard('player2')
         centerDeck.innerHTML = `
-        <img class="center-pile__img ${game.player2.id}__img--highlight" src="assets/${game.centerPile[0]}.png" alt="player card">
+        <img class="center-pile__img ${game.player2.id}__img--highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
       `
       } else {
         alert(`It's the other player's turn.`)
@@ -47,6 +49,7 @@ document.addEventListener('keyup', function(event) {
       break;
     case 'j':
       // player2 slap
+      game.slap('player2')
       break;
     default:
       alert(`Player 1 controls: 'q' to deal and 'f' to slap.\nPlayer 2 controls: 'p' to deal and 'j' to slap.\nOnly valid keys accepted.`)
@@ -62,5 +65,4 @@ function runNewGame() {
   game = new Game();
   game.shuffleCards();
   game.dealDeckToPlayers();
-  console.log(game)
 }
