@@ -10,22 +10,34 @@ var game;
 var startGameButton = document.querySelector('.center-pile__startbtn');
 var player1DeckSelector = document.querySelector('.player1__img');
 var player2DeckSelector = document.querySelector('.player2__img');
+var centerDeck = document.querySelector('.center-pile__deck');
 
 startGameButton.addEventListener('click', runNewGame);
 document.addEventListener('keyup', function(event) {
-
+  centerDeck.classList.remove('hidden');
   switch (event.key) {
     case 'q':
-      // player1 deal
-      player2Turn();
+      // player1 deal -- take top card and put it on center pile
+
+      var topCardP1 = game.player1.hand.shift()
+      game.centerPile.push(topCardP1);
+      centerDeck.innerHTML = `
+        <img class="center-pile__img ${game.player1.id}__img--highlight" src="assets/${topCardP1}.png" alt="player card">
+      `
+      // player2Turn();
       break;
     case 'f':
       // player1 slap
       player2Turn();
       break;
     case 'p':
-      // player2 deal
-      player1Turn();
+      // player2 deal take top card and put it on center pile
+      var topCardP2 = game.player2.hand.shift()
+      game.centerPile.push(topCardP2);
+      centerDeck.innerHTML = `
+        <img class="center-pile__img ${game.player2.id}__img--highlight" src="assets/${topCardP2}.png" alt="player card">
+      `
+      // player1Turn();
       break;
     case 'j':
       // player2 slap
@@ -39,13 +51,8 @@ document.addEventListener('keyup', function(event) {
 
 
 function runNewGame() {
+  startGameButton.classList.add('hidden');
   player1DeckSelector.classList.add('player1__img--highlight'); // add to player1 but leave off player2
-
-  startGameButton.innerHTML = `
-    <p class="center-pile__startbtn--instruc">Player 1 clicks 'q' to deal and 'f' to slap. </p>
-    <p class="center-pile__startbtn--instruc">Player 1 clicks 'p' to deal and 'j' to slap. </p>
-    <p class="center-pile__startbtn--instruc">Player 1 deals first. </p>
-  `
 
   // game instantiation goes here
   game = new Game();
