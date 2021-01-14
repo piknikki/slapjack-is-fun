@@ -79,6 +79,12 @@ main {
 }
 
 .center-pile {
+  &__startbtn {
+    &--instruc {
+      margin: 10px;
+      font-size: 1.2em;
+    }
+  }
   &__img {
     &--highlight {
       box-shadow: 0 0 15px 15px $center-pile-color;
