@@ -43,6 +43,8 @@ main {
   &__title {
     font-size: 1.2em;
     font-weight: 300;
+    border-radius: 7px;
+    padding: 5px 10px;
   }
 
   &__deck {
@@ -63,6 +65,12 @@ main {
 }
 
 .player1 {
+  &__title {
+    &--highlight {
+      box-shadow: 0 0 5px 5px $player1-color;
+    }
+  }
+
   &__img {
     &--highlight {
       box-shadow: 0 0 15px 15px $player1-color;
@@ -71,6 +79,12 @@ main {
 }
 
 .player2 {
+  &__title {
+    &--highlight {
+      box-shadow: 0 0 5px 5px $player2-color;
+    }
+  }
+
   &__img {
     &--highlight {
       box-shadow: 0 0 15px 15px $player2-color;
