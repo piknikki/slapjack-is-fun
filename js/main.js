@@ -19,6 +19,7 @@ document.addEventListener('keyup', function(event) {
       // player1 deal -- take top card and put it on center pile -- if it's your turn
       if (currentPlayer === 'player1') {
         game.playerDealsCard(currentPlayer)
+
         centerDeck.innerHTML = `
           <img class="center-pile__img ${game.player1.id}__img--highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
         `
@@ -36,9 +37,11 @@ document.addEventListener('keyup', function(event) {
       // player2 deal take top card and put it on center pile
       if (currentPlayer === 'player2') {
         game.playerDealsCard(currentPlayer)
+
         centerDeck.innerHTML = `
-        <img class="center-pile__img ${game.player2.id}__img--highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
-      `
+          <img class="center-pile__img ${game.player2.id}__img--highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
+        `
+        checkEmptyDeck(currentPlayer)
         game.turnCount++
         game.alternateTurns()
       } else {
@@ -52,7 +55,6 @@ document.addEventListener('keyup', function(event) {
     default:
       alert(`Player 1 controls: 'q' to deal and 'f' to slap.\nPlayer 2 controls: 'p' to deal and 'j' to slap.\nOnly valid keys accepted.`)
   }
-
 });
 
 // function checkCenterPile(arr) {
@@ -84,15 +86,21 @@ function toggleHighlighting(player) {
 }
 
 function checkEmptyDeck(player) {
-  // todo check if I need to empty the player deck first before injecting html
-  if (game[player].hand === [] && player === 'player1') {
+  // todo make this shit work
+
+  if (game[player].hand.length < 1 && player === 'player1') {
+    // document.querySelector('.player1__deck').innerHTML = '';
+
     document.querySelector('.player1__deck').innerHTML = `
-    <img class="player1__img player1__img--highlight" src="../assets/empty.png" alt="back of card">
-  `
-  } else if (game[player].hand === [] && player === 'player2') {
-    document.querySelector('.player2__deck').innerHTML = `
-    <img class="player2__img player2__img--highlight" src="../assets/empty.png" alt="back of card">
-  `
+      <img class="player1__img player1__img--highlight" src="assets/empty.png" alt="empty card">
+    `
+
+  } else if (game[player].hand.length < 1 && player === 'player2') {
+    // document.querySelector('.player2__deck').innerHTML = '';
+
+     document.querySelector('.player2__deck').innerHTML = `
+      <img class="player2__img player2__img--highlight" src="assets/empty.png" alt="back of card">
+    `
   }
 }
 
