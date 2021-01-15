@@ -6,8 +6,13 @@ class Player {
   }
 
   playCard() {
-    return this.hand.unshift(0,1) // take off top
-    // put onto center pile
+    if (this.hand !== []) {
+      return this.hand.shift();
+    } else if (this.hand === []) {
+      checkEmptyDeck(this.id)
+      console.log('this id', typeof this.id, this.id)
+    }
+
   }
 
   saveWinsToStorage() {
