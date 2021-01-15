@@ -86,22 +86,23 @@ function toggleHighlighting(player) {
 }
 
 function checkEmptyDeck(player) {
-  // todo make this shit work
-
   if (game[player].hand.length < 1 && player === 'player1') {
-    // document.querySelector('.player1__deck').innerHTML = '';
-
     document.querySelector('.player1__deck').innerHTML = `
-      <img class="player1__img player1__img--highlight" src="assets/empty.png" alt="empty card">
+      <img class="player1__img" src="assets/empty.png" alt="empty card">
     `
-
+    triggerSingleDeal('player2')
   } else if (game[player].hand.length < 1 && player === 'player2') {
-    // document.querySelector('.player2__deck').innerHTML = '';
-
      document.querySelector('.player2__deck').innerHTML = `
-      <img class="player2__img player2__img--highlight" src="assets/empty.png" alt="back of card">
+      <img class="player2__img" src="assets/empty.png" alt="back of card">
     `
+    triggerSingleDeal('player1')
   }
+
+}
+
+function triggerSingleDeal(singlePlayer) {
+  game.singleDeal = true
+  game.singleDealer = singlePlayer
 }
 
 function updateFeedback(response, player) {

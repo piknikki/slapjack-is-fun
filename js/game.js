@@ -9,6 +9,8 @@ class Game {
     this.winsPlayer1 = this.player1.wins
     this.winsPlayer2 = this.player2.wins
     this.turnCount = 1
+    this.singleDeal = false
+    this.singleDealer = ''
   }
 
   shuffleCards() {
@@ -26,14 +28,15 @@ class Game {
   }
 
   dealDeckToPlayers() {
-    // splits deck of 52 cards -- 1/2 to each player's hand, randomized
     this.player1.hand = this.wholeDeck.splice(0, 26);
     this.player2.hand = this.wholeDeck.splice(0, 26);
   }
 
   alternateTurns() {
-    // if odd player1, if even player2
-    if (this.turnCount % 2 === 0) {
+    // todo this should only be happening if both players have hand.len > 0
+    if (this.singleDeal === true) {
+      this.turn = this.singleDealer
+    } else if (this.turnCount % 2 === 0) {
       this.turn = 'player2'
     } else {
       this.turn = 'player1'
@@ -96,26 +99,28 @@ class Game {
       } else if (this[player].id === 'player2') {
         this.player1.hand.push(badslap)
       }
-    this.determineWinner()
     }
+    this.determineWinner()
   }
 
   determineWinner() {
     // if player has all cards in their hand, they win
     // hand dealing is different from hand won -- make a diff array for these
 
-    if (this.player1.hand.length === 52) {
+    if (this.player1.hand.length === 52 && this.player2.hand.length === 0) {
       this.winner = 'player1'
       this.updateWinCount(this.winner)
-    } else if (this.player2.hand.length === 52) {
+    } else if (this.player2.hand.length === 52 && this.player1.hand.length === 0) {
       this.winner = 'player2'
       this.updateWinCount(this.winner)
     }
+
   }
 
-  updateWinCount(player) {
+  updateWinCount(winningPlayer) {
     // player passed in, increase their count
-    this[player].wins++
+    console.log(winningPlayer)
+    this[winningPlayer].wins++
   }
 
   reset() {
