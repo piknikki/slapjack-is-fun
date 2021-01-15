@@ -2,11 +2,11 @@ var game;
 
 var startGameButton = document.querySelector('.center-pile__startbtn');
 var player1DeckSelector = document.querySelector('.player1__img');
-var player2DeckSelector = document.querySelector('.player2__img');
 var centerDeck = document.querySelector('.center-pile__deck');
 var feedbackSelector = document.querySelector('.feedback-message');
 
 startGameButton.addEventListener('click', runNewGame);
+
 
 document.addEventListener('keyup', function(event) {
   centerDeck.classList.remove('hidden');
@@ -116,9 +116,15 @@ function updateFeedback(response, player) {
     <span>${response.toUpperCase()}! ${playerName} takes the pile!</span>
   `
   }
-
 }
 
 function formatName(name) {
   return name.charAt(0).toUpperCase() + name.slice(1, 6) + " " + name[6]
+}
+
+function checkLocalStorage() {
+  var wins = JSON.parse(localStorage.getItem('player1'))
+  if (wins != null) {
+    document.querySelector('.player1__wins').innerHTML = `${wins.wins}`
+  }
 }
