@@ -57,9 +57,7 @@ class Game {
       var topCard = this[player].playCard()
       this.centerPile.unshift(topCard);
     } else {
-      checkEmptyDeck();
-      alert('Your hand is empty but you can still continue.')
-
+      checkEmptyDeck(player)
     }
   }
 
