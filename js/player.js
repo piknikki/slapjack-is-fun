@@ -3,11 +3,11 @@ class Player {
     this.id = player
     this.wins = 0
     this.hand = []
+    this.wonCardsHand = []
   }
 
   playCard() {
-    return this.hand.unshift(0,1) // take off top
-    // put onto center pile
+    return this.hand.shift();
   }
 
   saveWinsToStorage() {

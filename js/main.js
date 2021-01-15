@@ -18,11 +18,11 @@ document.addEventListener('keyup', function(event) {
         centerDeck.innerHTML = `
         <img class="center-pile__img ${game.player1.id}__img--highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
       `
+        game.turnCount++
+        game.alternateTurns()
       } else {
         alert(`It's the other player's turn.`)
       }
-      game.turnCount++
-      game.alternateTurns();
       break;
     case 'f':
       // player1 slap
@@ -35,11 +35,11 @@ document.addEventListener('keyup', function(event) {
         centerDeck.innerHTML = `
         <img class="center-pile__img ${game.player2.id}__img--highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
       `
+        game.turnCount++
+        game.alternateTurns()
       } else {
         alert(`It's the other player's turn.`)
       }
-      game.turnCount++
-      game.alternateTurns()
       break;
     case 'j':
       // player2 slap
