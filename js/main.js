@@ -37,8 +37,8 @@ document.addEventListener('keyup', function(event) {
       if (currentPlayer === 'player2') {
         game.playerDealsCard(currentPlayer)
         centerDeck.innerHTML = `
-        <img class="center-pile__img ${game.player2.id}__img--highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
-      `
+          <img class="center-pile__img ${game.player2.id}__img--highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
+        `
         game.turnCount++
         game.alternateTurns()
       } else {
@@ -83,17 +83,23 @@ function toggleHighlighting(player) {
   }
 }
 
-function checkEmptyDeck(player) {
+function checkEmptyDeck() {
   // todo check if I need to empty the player deck first before injecting html
-  if (game[player].hand === [] && player === 'player1') {
-    document.querySelector('.player1__deck').innerHTML = `
-    <img class="player1__img player1__img--highlight" src="../assets/empty.png" alt="back of card">
-  `
-  } else if (game[player].hand === [] && player === 'player2') {
-    document.querySelector('.player2__deck').innerHTML = `
-    <img class="player2__img player2__img--highlight" src="../assets/empty.png" alt="back of card">
-  `
-  }
+  document.querySelector('.player1__deck').innerHTML = `
+      <img class="player1__img player1__img--highlight" src="assets/empty.png" alt="back of card">
+    `
+
+  // if (game[player].hand.length > 0) {
+  //   // document.querySelector('.player1__deck').innerHTML = '';
+  //   console.log("CHECK EMPTY DECK", game[player].hand)
+  //
+  // } else if (game[player].hand.length > 0 && player === 'player2') {
+  //   // document.querySelector('.player2__deck').innerHTML = '';
+  //
+  //    document.querySelector('.player2__deck').innerHTML = `
+  //     <img class="player2__img player2__img--highlight" src="../assets/empty.png" alt="back of card">
+  //   `
+  // }
 }
 
 function updateFeedback(response, player) {

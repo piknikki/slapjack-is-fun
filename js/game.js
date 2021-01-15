@@ -12,7 +12,7 @@ class Game {
   }
 
   shuffleCards() {
-    // shuffle any deck of cards
+    // todo shuffle any deck of cards, not just wholeDeck (or reset wholeDeck, then shuffle?)
     var currentIndex = this.wholeDeck.length, temp, rand;
     while (currentIndex !== 0) {
       rand = Math.floor(Math.random() * currentIndex);
@@ -53,13 +53,14 @@ class Game {
   playerDealsCard(player) {
     // puts card in middle pile
     // todo try flipping if/else and try checking length instead of empty
-    if (this[player].hand !== []) {
+    if (this[player].hand.length > 0) {
       var topCard = this[player].playCard()
       this.centerPile.unshift(topCard);
     } else {
+      checkEmptyDeck();
       alert('Your hand is empty but you can still continue.')
+
     }
-    checkEmptyDeck(player)
   }
 
   slap(player) {
@@ -122,6 +123,7 @@ class Game {
   reset() {
     // if game over, reset automagically
     // shuffle deck, split the deck, maybe have ready message on feedback??
+    this.wholeDeck = cardNames
   }
 
 }
