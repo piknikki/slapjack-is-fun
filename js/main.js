@@ -66,12 +66,15 @@ document.addEventListener('keyup', function(event) {
 function runNewGame() {
   startGameButton.classList.add('hidden');
   centerDeck.classList.toggle('hidden');
-
-  feedbackSelector.innerHTML = '';
-  game = new Game();
   checkLocalStorage();
-  game.reset()
   toggleHighlighting('player1');
+  feedbackSelector.innerHTML = '';
+
+  debugger
+  game = new Game();
+  game.shuffleCards(game.wholeDeck);
+  game.dealDeckToPlayers();
+
 }
 
 function toggleHighlighting(player) {
@@ -86,14 +89,12 @@ function toggleHighlighting(player) {
 
 function checkEmptyDeck(player) {
   if (game[player].hand.length < 1 && player === 'player1') {
-    document.querySelector('.player1__deck').innerHTML = `
-      <img class="player1__img" src="assets/empty.png" alt="empty card">
-    `
+    player1front.classList.add('hidden');
+    player1empty.classList.remove('hidden');
     triggerSingleDeal('player2')
   } else if (game[player].hand.length < 1 && player === 'player2') {
-     document.querySelector('.player2__deck').innerHTML = `
-      <img class="player2__img" src="assets/empty.png" alt="back of card">
-    `
+    player2front.classList.add('hidden');
+    player2empty.classList.remove('hidden');
     triggerSingleDeal('player1')
   }
 }
@@ -120,9 +121,14 @@ function updateFeedback(response, player) {
     `
     game[player].saveWinsToStorage()
     checkLocalStorage();
-    // centerDeck.classList.add('hidden');
-    game.reset();
-    // startGameButton.classList.remove('hidden');
+
+    player1front.classList.remove('hidden');
+    player1empty.classList.add('hidden');
+    player2front.classList.remove('hidden');
+    player2empty.classList.add('hidden');
+
+    centerDeck.classList.add('hidden');
+    startGameButton.classList.remove('hidden');
   } else {
     chunk = `
       <span>${response.toUpperCase()}! ${playerName} takes the pile!</span>
@@ -136,33 +142,30 @@ function formatName(name) {
 }
 
 function checkLocalStorage() {
-  var winsp1 = JSON.parse(localStorage.getItem('player1'))
-  var winsp2 = JSON.parse(localStorage.getItem('player2'))
+  var winsp1 = JSON.parse(localStorage.getItem('player1'));
+  var winsp2 = JSON.parse(localStorage.getItem('player2'));
 
   if (winsp1 != null) {
-    console.log(winsp1)
-    // game.player1.wins = winsp1;
     document.querySelector('.player1__wins').innerHTML = `${winsp1} wins`
   } else {
     document.querySelector('.player1__wins').innerHTML = `0 wins`
   }
 
   if (winsp2 != null) {
-    console.log(winsp2)
-    // game.player2.wins = winsp2
     document.querySelector('.player2__wins').innerHTML = `${winsp2} wins`
   } else {
     document.querySelector('.player2__wins').innerHTML = `0 wins`
   }
 }
 
-function toggleEmptyCard(player) {
-  if (player === 'player1') {
-    player1front.classList.toggle('.hidden');
-    player1empty.classList.toggle('.hidden');
-  } else if (player === 'player2') {
-    player2front.classList.toggle('.hidden');
-    player2empty.classList.toggle('.hidden');
-  }
-
-}
+// function toggleEmptyCard(emptyPlayer) {
+//
+//   if (emptyPlayer === 'player1' && game.singleDeal === true) {
+//     player1front.classList.toggle('hidden');
+//     player1empty.classList.toggle('hidden');
+//   } else if (emptyPlayer === 'player2' && game.singleDeal === true) {
+//     player2front.classList.toggle('hidden');
+//     player2empty.classList.toggle('hidden');
+//   }
+//
+// }

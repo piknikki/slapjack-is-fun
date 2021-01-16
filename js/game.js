@@ -1,5 +1,6 @@
 class Game {
-  constructor(newGame) {
+  constructor() {
+    this.id = new Date()
     this.player1 = new Player('player1')
     this.player2 = new Player('player2')
     this.wholeDeck = cardNames // this comes from the data file, still not sure about how to use this correctly
@@ -11,18 +12,19 @@ class Game {
     this.singleDealer = ''
   }
 
-  shuffleCards() {
+  shuffleCards(deck) {
     // todo shuffle any deck of cards, not just wholeDeck (or reset wholeDeck, then shuffle?)
-    var currentIndex = this.wholeDeck.length, temp, rand;
+
+    var currentIndex = deck.length, temp, rand;
     while (currentIndex !== 0) {
       rand = Math.floor(Math.random() * currentIndex);
       currentIndex -= 1;
 
-      temp = this.wholeDeck[currentIndex];
-      this.wholeDeck[currentIndex] = this.wholeDeck[rand];
-      this.wholeDeck[rand] = temp;
+      temp = deck[currentIndex];
+      deck[currentIndex] = deck[rand];
+      deck[rand] = temp;
     }
-    return this.wholeDeck
+    return deck
   }
 
   dealDeckToPlayers() {
@@ -86,6 +88,7 @@ class Game {
         this.player1.hand.push(badslap)
       }
     }
+    this.shuffleCards(this[player].hand)
     this.determineWinner()
   }
 
@@ -99,7 +102,7 @@ class Game {
     if (this.winner) {
       this.updateWinCount(this.winner)
       updateFeedback('winner', this.winner)
-      this.reset()
+      this[this.winner].hand.forEach(card => this.wholeDeck.push(card))
     }
   }
 
@@ -108,11 +111,13 @@ class Game {
     this[winningPlayer].wins++
   }
 
-  reset() {
-    // if game over, reset automagically
-    // shuffle deck, split the deck, maybe have ready message on feedback??
-    this.shuffleCards();
-    this.dealDeckToPlayers();
-  }
+  // reset() {
+  //   // if game over, reset automagically
+  //   // shuffle deck, split the deck, maybe have ready message on feedback??
+  //   console.log('GAME GETS RESET')
+  //   this.wholeDeck = cardNames
+  //   this.shuffleCards();
+  //   this.dealDeckToPlayers();
+  // }
 
 }
