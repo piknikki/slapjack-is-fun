@@ -105,15 +105,12 @@ class Game {
 
   updateWinCount(winningPlayer) {
     // todo make sure this isn't wiping out the storage on reload something wonky here
-    console.log("UPDATE WIN COUNT")
     this[winningPlayer].wins++
-    this[winningPlayer].saveWinsToStorage()
   }
 
   reset() {
     // if game over, reset automagically
     // shuffle deck, split the deck, maybe have ready message on feedback??
-    this.wholeDeck = cardNames;
     this.shuffleCards();
     this.dealDeckToPlayers();
   }

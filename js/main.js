@@ -1,6 +1,10 @@
 var game;
 
 var startGameButton = document.querySelector('.center-pile__startbtn');
+var player1front = document.querySelector('.player1__img-front');
+var player1empty = document.querySelector('.player1__img-empty');
+var player2front = document.querySelector('.player2__img-front');
+var player2empty = document.querySelector('.player2__img-empty');
 var centerDeck = document.querySelector('.center-pile__deck');
 var feedbackSelector = document.querySelector('.feedback-message');
 
@@ -66,8 +70,7 @@ function runNewGame() {
   feedbackSelector.innerHTML = '';
   game = new Game();
   checkLocalStorage();
-  game.shuffleCards();
-  game.dealDeckToPlayers();
+  game.reset()
   toggleHighlighting('player1');
 }
 
@@ -115,9 +118,11 @@ function updateFeedback(response, player) {
     chunk = `
       <span>${response.toUpperCase()}! ${playerName} wins the game!</span>
     `
+    game[player].saveWinsToStorage()
     checkLocalStorage();
-    centerDeck.classList.add('hidden')
-    startGameButton.classList.remove('hidden');
+    // centerDeck.classList.add('hidden');
+    game.reset();
+    // startGameButton.classList.remove('hidden');
   } else {
     chunk = `
       <span>${response.toUpperCase()}! ${playerName} takes the pile!</span>
@@ -149,4 +154,15 @@ function checkLocalStorage() {
   } else {
     document.querySelector('.player2__wins').innerHTML = `0 wins`
   }
+}
+
+function toggleEmptyCard(player) {
+  if (player === 'player1') {
+    player1front.classList.toggle('.hidden');
+    player1empty.classList.toggle('.hidden');
+  } else if (player === 'player2') {
+    player2front.classList.toggle('.hidden');
+    player2empty.classList.toggle('.hidden');
+  }
+
 }
