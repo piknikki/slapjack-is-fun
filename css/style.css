@@ -42,7 +42,7 @@ main {
   font-size: 1.2em;
   font-weight: 300;
   border-radius: 7px;
-  padding: 5px 10px;
+  padding: 10px 10px;
 }
 .player1__img,
 .player2__img,
@@ -58,22 +58,30 @@ main {
 }
 
 .player1__title--highlight {
-  box-shadow: 0 0 5px 5px #FEC830;
+  box-shadow: 0 0 10px 10px #FEC830;
 }
 .player1__img--highlight {
   box-shadow: 0 0 15px 15px #FEC830;
 }
+.player1__img--center-highlight {
+  box-shadow: 0 0 5px 5px #FEC830;
+}
 
 .player2__title--highlight {
-  box-shadow: 0 0 5px 5px #7935F7;
+  box-shadow: 0 0 10px 10px #7935F7;
 }
 .player2__img--highlight {
   box-shadow: 0 0 15px 15px #7935F7;
 }
+.player2__img--center-highlight {
+  box-shadow: 0 0 5px 5px #7935F7;
+}
 
-.center-pile__startbtn--instruc {
-  margin: 10px;
+.center-pile__startbtn {
+  width: 150px;
   font-size: 1.2em;
+  cursor: pointer;
+  text-align: center;
 }
 .center-pile__img--highlight {
   box-shadow: 0 0 15px 15px #399BD7;

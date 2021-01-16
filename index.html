@@ -3,20 +3,20 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!--    <link rel="stylesheet" href="./css/reset.css">-->
     <link rel="stylesheet" href="./css/style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;300;400;700&display=swap" rel="stylesheet">
+    <title>SlapJack!!</title>
+  </head>
   <body>
     <header>
       <span class="feedback-message">
-        <span class="feedback-message__instructions--p1">
+        <p class="feedback-message__instructions--p1">
           Player 1 controls: 'q' to deal and 'f' to slap.
-        </span>
-        <span class="feedback-message__instructions--p2">
+        </p>
+        <p class="feedback-message__instructions--p2">
           Player 2 controls: 'p' to deal and 'j' to slap.
-        </span>
+        </p>
       </span>
     </header>
 
@@ -24,24 +24,26 @@
       <section class="player1">
         <span class="player1__title">Player 1</span>
         <figure class="player1__deck">
-          <img class="player1__img player1__img--highlight" src="assets/wild.png" alt="back of card">
+          <img class="player1__img player1__img-front player1__img--highlight" src="assets/wild.png" alt="back of card">
+          <img class="player1__img player1__img-empty player1__img--highlight hidden" src="assets/empty.png" alt="empty card">
         </figure>
-        <span class="player1__wins">p1 wins</span>
+        <span class="player1__wins"></span>
       </section>
 
       <section class="center-pile">
         <figure class="center-pile__deck hidden">
-          <img class="center-pile__img center-pile__img--highlight" src="assets/wild.png" alt="back of card">
+          <img class="center-pile__img" src="assets/blank.png" alt="blank card">
         </figure>
-        <span class="center-pile__startbtn">CLICK HERE TO START</span>
+        <span class="center-pile__startbtn">CLICK HERE TO START A NEW GAME</span>
       </section>
 
       <section class="player2">
         <span class="player2__title">Player 2</span>
         <figure class="player2__deck">
-          <img class="player2__img player2__img--highlight" src="assets/wild.png" alt="back of card">
+          <img class="player2__img player2__img-front player2__img--highlight" src="assets/wild.png" alt="back of card">
+          <img class="player2__img player2__img-empty player2__img--highlight hidden" src="assets/empty.png" alt="empty card">
         </figure>
-        <span class="player2__wins">p2 wins</span>
+        <span class="player2__wins"></span>
       </section>
 
     </main>

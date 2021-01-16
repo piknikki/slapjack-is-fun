@@ -1,27 +1,29 @@
 var game;
 
 var startGameButton = document.querySelector('.center-pile__startbtn');
-var player1DeckSelector = document.querySelector('.player1__img');
+var player1front = document.querySelector('.player1__img-front');
+var player1empty = document.querySelector('.player1__img-empty');
+var player2front = document.querySelector('.player2__img-front');
+var player2empty = document.querySelector('.player2__img-empty');
 var centerDeck = document.querySelector('.center-pile__deck');
 var feedbackSelector = document.querySelector('.feedback-message');
 
 startGameButton.addEventListener('click', runNewGame);
-
+window.addEventListener('load', checkLocalStorage)
 
 document.addEventListener('keyup', function(event) {
-  centerDeck.classList.remove('hidden');
+
   var currentPlayer = game.turn
   console.log(game[currentPlayer].hand)
   feedbackSelector.innerHTML = ''
 
   switch (event.key) {
     case 'q':
-      // player1 deal -- take top card and put it on center pile -- if it's your turn
       if (currentPlayer === 'player1') {
         game.playerDealsCard(currentPlayer)
 
         centerDeck.innerHTML = `
-          <img class="center-pile__img ${game.player1.id}__img--highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
+          <img class="center-pile__img ${game.player1.id}__img--center-highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
         `
         game.turnCount++
         game.alternateTurns()
@@ -34,14 +36,12 @@ document.addEventListener('keyup', function(event) {
       game.slap('player1')
       break;
     case 'p':
-      // player2 deal take top card and put it on center pile
       if (currentPlayer === 'player2') {
         game.playerDealsCard(currentPlayer)
 
         centerDeck.innerHTML = `
-          <img class="center-pile__img ${game.player2.id}__img--highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
+          <img class="center-pile__img ${game.player2.id}__img--center-highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
         `
-        checkEmptyDeck(currentPlayer)
         game.turnCount++
         game.alternateTurns()
       } else {
@@ -65,14 +65,16 @@ document.addEventListener('keyup', function(event) {
 
 function runNewGame() {
   startGameButton.classList.add('hidden');
-  player1DeckSelector.classList.add('player1__img--highlight'); // add to player1 but leave off player2
-
-  // game instantiation goes here
-  feedbackSelector.innerHTML = '';
-  game = new Game();
-  game.shuffleCards();
-  game.dealDeckToPlayers();
+  centerDeck.classList.toggle('hidden');
+  checkLocalStorage();
   toggleHighlighting('player1');
+  feedbackSelector.innerHTML = '';
+
+  debugger
+  game = new Game();
+  game.shuffleCards(game.wholeDeck);
+  game.dealDeckToPlayers();
+
 }
 
 function toggleHighlighting(player) {
@@ -87,17 +89,14 @@ function toggleHighlighting(player) {
 
 function checkEmptyDeck(player) {
   if (game[player].hand.length < 1 && player === 'player1') {
-    document.querySelector('.player1__deck').innerHTML = `
-      <img class="player1__img" src="assets/empty.png" alt="empty card">
-    `
+    player1front.classList.add('hidden');
+    player1empty.classList.remove('hidden');
     triggerSingleDeal('player2')
   } else if (game[player].hand.length < 1 && player === 'player2') {
-     document.querySelector('.player2__deck').innerHTML = `
-      <img class="player2__img" src="assets/empty.png" alt="back of card">
-    `
+    player2front.classList.add('hidden');
+    player2empty.classList.remove('hidden');
     triggerSingleDeal('player1')
   }
-
 }
 
 function triggerSingleDeal(singlePlayer) {
@@ -107,15 +106,35 @@ function triggerSingleDeal(singlePlayer) {
 
 function updateFeedback(response, player) {
   var playerName = formatName(player)
+  var chunk;
+  centerDeck.innerHTML = `
+      <img class="player1__img" src="assets/blank.png" alt="empty card">
+    `
+
   if (response === 'bad') {
-    feedbackSelector.innerHTML = `
-    <span>${response.toUpperCase()}! ${playerName} loses a card!</span>
-  `
+    chunk = `
+      <span>${response.toUpperCase()}! ${playerName} loses a card!</span>
+    `
+  } else if (response === 'winner') {
+    chunk = `
+      <span>${response.toUpperCase()}! ${playerName} wins the game!</span>
+    `
+    game[player].saveWinsToStorage()
+    checkLocalStorage();
+
+    player1front.classList.remove('hidden');
+    player1empty.classList.add('hidden');
+    player2front.classList.remove('hidden');
+    player2empty.classList.add('hidden');
+
+    centerDeck.classList.add('hidden');
+    startGameButton.classList.remove('hidden');
   } else {
-    feedbackSelector.innerHTML = `
-    <span>${response.toUpperCase()}! ${playerName} takes the pile!</span>
-  `
+    chunk = `
+      <span>${response.toUpperCase()}! ${playerName} takes the pile!</span>
+    `
   }
+  return feedbackSelector.innerHTML = chunk;
 }
 
 function formatName(name) {
@@ -123,8 +142,30 @@ function formatName(name) {
 }
 
 function checkLocalStorage() {
-  var wins = JSON.parse(localStorage.getItem('player1'))
-  if (wins != null) {
-    document.querySelector('.player1__wins').innerHTML = `${wins.wins}`
+  var winsp1 = JSON.parse(localStorage.getItem('player1'));
+  var winsp2 = JSON.parse(localStorage.getItem('player2'));
+
+  if (winsp1 != null) {
+    document.querySelector('.player1__wins').innerHTML = `${winsp1} wins`
+  } else {
+    document.querySelector('.player1__wins').innerHTML = `0 wins`
+  }
+
+  if (winsp2 != null) {
+    document.querySelector('.player2__wins').innerHTML = `${winsp2} wins`
+  } else {
+    document.querySelector('.player2__wins').innerHTML = `0 wins`
   }
 }
+
+// function toggleEmptyCard(emptyPlayer) {
+//
+//   if (emptyPlayer === 'player1' && game.singleDeal === true) {
+//     player1front.classList.toggle('hidden');
+//     player1empty.classList.toggle('hidden');
+//   } else if (emptyPlayer === 'player2' && game.singleDeal === true) {
+//     player2front.classList.toggle('hidden');
+//     player2empty.classList.toggle('hidden');
+//   }
+//
+// }

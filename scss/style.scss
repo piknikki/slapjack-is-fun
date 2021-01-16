@@ -44,7 +44,7 @@ main {
     font-size: 1.2em;
     font-weight: 300;
     border-radius: 7px;
-    padding: 5px 10px;
+    padding: 10px 10px;
   }
 
   &__deck {
@@ -67,7 +67,7 @@ main {
 .player1 {
   &__title {
     &--highlight {
-      box-shadow: 0 0 5px 5px $player1-color;
+      box-shadow: 0 0 10px 10px $player1-color;
     }
   }
 
@@ -75,13 +75,17 @@ main {
     &--highlight {
       box-shadow: 0 0 15px 15px $player1-color;
     }
+
+    &--center-highlight {
+      box-shadow: 0 0 5px 5px $player1-color;
+    }
   }
 }
 
 .player2 {
   &__title {
     &--highlight {
-      box-shadow: 0 0 5px 5px $player2-color;
+      box-shadow: 0 0 10px 10px $player2-color;
     }
   }
 
@@ -89,26 +93,24 @@ main {
     &--highlight {
       box-shadow: 0 0 15px 15px $player2-color;
     }
+
+    &--center-highlight {
+      box-shadow: 0 0 5px 5px $player2-color;
+    }
   }
 }
 
 .center-pile {
   &__startbtn {
-    &--instruc {
-      margin: 10px;
-      font-size: 1.2em;
-    }
+    width: 150px;
+    font-size: 1.2em;
+    cursor: pointer;
+    text-align: center;
   }
   &__img {
     &--highlight {
       box-shadow: 0 0 15px 15px $center-pile-color;
     }
-  }
-}
-
-.center-pile {
-  &__startbtn {
-
   }
 }
 

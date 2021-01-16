@@ -1,30 +1,30 @@
 class Game {
-  constructor(newGame) {
+  constructor() {
+    this.id = new Date()
     this.player1 = new Player('player1')
     this.player2 = new Player('player2')
     this.wholeDeck = cardNames // this comes from the data file, still not sure about how to use this correctly
     this.centerPile = []
     this.turn = 'player1'
     this.winner = null
-    this.winsPlayer1 = this.player1.wins
-    this.winsPlayer2 = this.player2.wins
     this.turnCount = 1
     this.singleDeal = false
     this.singleDealer = ''
   }
 
-  shuffleCards() {
+  shuffleCards(deck) {
     // todo shuffle any deck of cards, not just wholeDeck (or reset wholeDeck, then shuffle?)
-    var currentIndex = this.wholeDeck.length, temp, rand;
+
+    var currentIndex = deck.length, temp, rand;
     while (currentIndex !== 0) {
       rand = Math.floor(Math.random() * currentIndex);
       currentIndex -= 1;
 
-      temp = this.wholeDeck[currentIndex];
-      this.wholeDeck[currentIndex] = this.wholeDeck[rand];
-      this.wholeDeck[rand] = temp;
+      temp = deck[currentIndex];
+      deck[currentIndex] = deck[rand];
+      deck[rand] = temp;
     }
-    return this.wholeDeck
+    return deck
   }
 
   dealDeckToPlayers() {
@@ -71,17 +71,14 @@ class Game {
       updateFeedback('jack', player)
       this.centerPile.forEach(card => this[player].hand.push(card))
       this.centerPile = []
-      centerDeck.innerHTML = '';
     } else if (cardOne === cardTwo) {
       updateFeedback('double', player)
       this.centerPile.forEach(card => this[player].hand.push(card))
       this.centerPile = []
-      centerDeck.innerHTML = '';
     } else if (cardOne === cardThree) {
       updateFeedback('sammich', player)
       this.centerPile.forEach(card => this[player].hand.push(card))
       this.centerPile = []
-      centerDeck.innerHTML = '';
     } else {
       updateFeedback('bad', player)
       var badslap = this[player].playCard()
@@ -91,28 +88,36 @@ class Game {
         this.player1.hand.push(badslap)
       }
     }
+    this.shuffleCards(this[player].hand)
     this.determineWinner()
   }
 
   determineWinner() {
     if (this.player1.hand.length === 52 && this.player2.hand.length === 0) {
       this.winner = 'player1'
-      this.updateWinCount(this.winner)
     } else if (this.player2.hand.length === 52 && this.player1.hand.length === 0) {
       this.winner = 'player2'
+    }
+
+    if (this.winner) {
       this.updateWinCount(this.winner)
+      updateFeedback('winner', this.winner)
+      this[this.winner].hand.forEach(card => this.wholeDeck.push(card))
     }
   }
 
   updateWinCount(winningPlayer) {
+    // todo make sure this isn't wiping out the storage on reload something wonky here
     this[winningPlayer].wins++
-    this[winningPlayer].saveWinsToStorage()
   }
 
-  reset() {
-    // if game over, reset automagically
-    // shuffle deck, split the deck, maybe have ready message on feedback??
-    this.wholeDeck = cardNames
-  }
+  // reset() {
+  //   // if game over, reset automagically
+  //   // shuffle deck, split the deck, maybe have ready message on feedback??
+  //   console.log('GAME GETS RESET')
+  //   this.wholeDeck = cardNames
+  //   this.shuffleCards();
+  //   this.dealDeckToPlayers();
+  // }
 
 }
