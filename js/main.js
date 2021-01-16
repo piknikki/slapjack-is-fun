@@ -1,12 +1,11 @@
 var game;
 
 var startGameButton = document.querySelector('.center-pile__startbtn');
-var player1DeckSelector = document.querySelector('.player1__img');
 var centerDeck = document.querySelector('.center-pile__deck');
 var feedbackSelector = document.querySelector('.feedback-message');
 
 startGameButton.addEventListener('click', runNewGame);
-
+window.addEventListener('load', checkLocalStorage)
 
 document.addEventListener('keyup', function(event) {
   centerDeck.classList.remove('hidden');
@@ -16,12 +15,11 @@ document.addEventListener('keyup', function(event) {
 
   switch (event.key) {
     case 'q':
-      // player1 deal -- take top card and put it on center pile -- if it's your turn
       if (currentPlayer === 'player1') {
         game.playerDealsCard(currentPlayer)
 
         centerDeck.innerHTML = `
-          <img class="center-pile__img ${game.player1.id}__img--highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
+          <img class="center-pile__img ${game.player1.id}__img--center-highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
         `
         game.turnCount++
         game.alternateTurns()
@@ -34,14 +32,12 @@ document.addEventListener('keyup', function(event) {
       game.slap('player1')
       break;
     case 'p':
-      // player2 deal take top card and put it on center pile
       if (currentPlayer === 'player2') {
         game.playerDealsCard(currentPlayer)
 
         centerDeck.innerHTML = `
-          <img class="center-pile__img ${game.player2.id}__img--highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
+          <img class="center-pile__img ${game.player2.id}__img--center-highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
         `
-        checkEmptyDeck(currentPlayer)
         game.turnCount++
         game.alternateTurns()
       } else {
@@ -65,9 +61,7 @@ document.addEventListener('keyup', function(event) {
 
 function runNewGame() {
   startGameButton.classList.add('hidden');
-  player1DeckSelector.classList.add('player1__img--highlight'); // add to player1 but leave off player2
 
-  // game instantiation goes here
   feedbackSelector.innerHTML = '';
   game = new Game();
   game.shuffleCards();
@@ -97,7 +91,6 @@ function checkEmptyDeck(player) {
     `
     triggerSingleDeal('player1')
   }
-
 }
 
 function triggerSingleDeal(singlePlayer) {
@@ -107,15 +100,23 @@ function triggerSingleDeal(singlePlayer) {
 
 function updateFeedback(response, player) {
   var playerName = formatName(player)
+  var chunk;
+
   if (response === 'bad') {
-    feedbackSelector.innerHTML = `
-    <span>${response.toUpperCase()}! ${playerName} loses a card!</span>
-  `
+    chunk = `
+      <span>${response.toUpperCase()}! ${playerName} loses a card!</span>
+    `
+  } else if (response === 'winner') {
+    chunk = `
+      <span>${response.toUpperCase()}! ${playerName} wins the game!</span>
+    `
+    checkLocalStorage()
   } else {
-    feedbackSelector.innerHTML = `
-    <span>${response.toUpperCase()}! ${playerName} takes the pile!</span>
-  `
+    chunk = `
+      <span>${response.toUpperCase()}! ${playerName} takes the pile!</span>
+    `
   }
+  return feedbackSelector.innerHTML = chunk;
 }
 
 function formatName(name) {
@@ -123,8 +124,18 @@ function formatName(name) {
 }
 
 function checkLocalStorage() {
-  var wins = JSON.parse(localStorage.getItem('player1'))
-  if (wins != null) {
-    document.querySelector('.player1__wins').innerHTML = `${wins.wins}`
+  var winsp1 = JSON.parse(localStorage.getItem('player1'))
+  var winsp2 = JSON.parse(localStorage.getItem('player2'))
+
+  if (winsp1 != null) {
+    document.querySelector('.player1__wins').innerHTML = `${winsp1} wins`
+  } else {
+    document.querySelector('.player1__wins').innerHTML = `0 wins`
+  }
+
+  if (winsp2 != null) {
+    document.querySelector('.player2__wins').innerHTML = `${winsp2} wins`
+  } else {
+    document.querySelector('.player2__wins').innerHTML = `0 wins`
   }
 }

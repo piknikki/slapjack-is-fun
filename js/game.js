@@ -6,8 +6,6 @@ class Game {
     this.centerPile = []
     this.turn = 'player1'
     this.winner = null
-    this.winsPlayer1 = this.player1.wins
-    this.winsPlayer2 = this.player2.wins
     this.turnCount = 1
     this.singleDeal = false
     this.singleDealer = ''
@@ -102,9 +100,14 @@ class Game {
       this.winner = 'player2'
       this.updateWinCount(this.winner)
     }
+
+    if (this.winner) {
+      updateFeedback('winner', this.winner)
+    }
   }
 
   updateWinCount(winningPlayer) {
+    // todo make sure this isn't wiping out the storage on reload something wonky here
     this[winningPlayer].wins++
     this[winningPlayer].saveWinsToStorage()
   }
