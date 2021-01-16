@@ -133,16 +133,18 @@ function formatName(name) {
 function checkLocalStorage() {
   var winsp1 = JSON.parse(localStorage.getItem('player1'))
   var winsp2 = JSON.parse(localStorage.getItem('player2'))
-  game.player1.wins = winsp1;
-  game.player2.wins = winsp2
 
   if (winsp1 != null) {
+    console.log(winsp1)
+    // game.player1.wins = winsp1;
     document.querySelector('.player1__wins').innerHTML = `${winsp1} wins`
   } else {
     document.querySelector('.player1__wins').innerHTML = `0 wins`
   }
 
   if (winsp2 != null) {
+    console.log(winsp2)
+    // game.player2.wins = winsp2
     document.querySelector('.player2__wins').innerHTML = `${winsp2} wins`
   } else {
     document.querySelector('.player2__wins').innerHTML = `0 wins`

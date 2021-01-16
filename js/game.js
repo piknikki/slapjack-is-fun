@@ -92,14 +92,12 @@ class Game {
   determineWinner() {
     if (this.player1.hand.length === 52 && this.player2.hand.length === 0) {
       this.winner = 'player1'
-      this.updateWinCount(this.winner)
     } else if (this.player2.hand.length === 52 && this.player1.hand.length === 0) {
       this.winner = 'player2'
-      this.updateWinCount(this.winner)
     }
 
     if (this.winner) {
-
+      this.updateWinCount(this.winner)
       updateFeedback('winner', this.winner)
       this.reset()
     }
@@ -115,7 +113,9 @@ class Game {
   reset() {
     // if game over, reset automagically
     // shuffle deck, split the deck, maybe have ready message on feedback??
-    this.wholeDeck = cardNames
+    this.wholeDeck = cardNames;
+    this.shuffleCards();
+    this.dealDeckToPlayers();
   }
 
 }
