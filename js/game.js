@@ -24,6 +24,7 @@ class Game {
       deck[currentIndex] = deck[rand];
       deck[rand] = temp;
     }
+    ("DECK GETS SHUFFLED")
     return deck
   }
 
@@ -62,7 +63,6 @@ class Game {
   }
 
   slap(player) {
-    // todo --> add to back end of their hand (use push)
     var cardOne = this.centerPile[0].split('-').pop()
     var cardTwo = this.centerPile[1] ? this.centerPile[1].split('-').pop() : null
     var cardThree = this.centerPile[2] ? this.centerPile[2].split('-').pop() : null
@@ -70,14 +70,17 @@ class Game {
     if (cardOne === 'jack') {
       updateFeedback('jack', player)
       this.centerPile.forEach(card => this[player].hand.push(card))
+      this.shuffleCards(this[player].hand)
       this.centerPile = []
     } else if (cardOne === cardTwo) {
       updateFeedback('double', player)
       this.centerPile.forEach(card => this[player].hand.push(card))
+      this.shuffleCards(this[player].hand)
       this.centerPile = []
     } else if (cardOne === cardThree) {
       updateFeedback('sammich', player)
       this.centerPile.forEach(card => this[player].hand.push(card))
+      this.shuffleCards(this[player].hand)
       this.centerPile = []
     } else {
       updateFeedback('bad', player)
@@ -88,7 +91,7 @@ class Game {
         this.player1.hand.push(badslap)
       }
     }
-    this.shuffleCards(this[player].hand)
+
     this.determineWinner()
   }
 

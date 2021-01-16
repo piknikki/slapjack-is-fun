@@ -70,11 +70,9 @@ function runNewGame() {
   toggleHighlighting('player1');
   feedbackSelector.innerHTML = '';
 
-  debugger
   game = new Game();
   game.shuffleCards(game.wholeDeck);
   game.dealDeckToPlayers();
-
 }
 
 function toggleHighlighting(player) {
