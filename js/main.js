@@ -8,7 +8,7 @@ startGameButton.addEventListener('click', runNewGame);
 window.addEventListener('load', checkLocalStorage)
 
 document.addEventListener('keyup', function(event) {
-  centerDeck.classList.remove('hidden');
+
   var currentPlayer = game.turn
   console.log(game[currentPlayer].hand)
   feedbackSelector.innerHTML = ''
@@ -61,6 +61,7 @@ document.addEventListener('keyup', function(event) {
 
 function runNewGame() {
   startGameButton.classList.add('hidden');
+  centerDeck.classList.toggle('hidden');
 
   feedbackSelector.innerHTML = '';
   game = new Game();
@@ -101,6 +102,9 @@ function triggerSingleDeal(singlePlayer) {
 function updateFeedback(response, player) {
   var playerName = formatName(player)
   var chunk;
+  centerDeck.innerHTML = `
+      <img class="player1__img" src="assets/blank.png" alt="empty card">
+    `
 
   if (response === 'bad') {
     chunk = `

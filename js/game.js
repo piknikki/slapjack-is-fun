@@ -69,17 +69,14 @@ class Game {
       updateFeedback('jack', player)
       this.centerPile.forEach(card => this[player].hand.push(card))
       this.centerPile = []
-      centerDeck.innerHTML = '';
     } else if (cardOne === cardTwo) {
       updateFeedback('double', player)
       this.centerPile.forEach(card => this[player].hand.push(card))
       this.centerPile = []
-      centerDeck.innerHTML = '';
     } else if (cardOne === cardThree) {
       updateFeedback('sammich', player)
       this.centerPile.forEach(card => this[player].hand.push(card))
       this.centerPile = []
-      centerDeck.innerHTML = '';
     } else {
       updateFeedback('bad', player)
       var badslap = this[player].playCard()
