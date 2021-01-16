@@ -65,6 +65,7 @@ function runNewGame() {
 
   feedbackSelector.innerHTML = '';
   game = new Game();
+  checkLocalStorage();
   game.shuffleCards();
   game.dealDeckToPlayers();
   toggleHighlighting('player1');
@@ -114,7 +115,9 @@ function updateFeedback(response, player) {
     chunk = `
       <span>${response.toUpperCase()}! ${playerName} wins the game!</span>
     `
-    checkLocalStorage()
+    checkLocalStorage();
+    centerDeck.classList.add('hidden')
+    startGameButton.classList.remove('hidden');
   } else {
     chunk = `
       <span>${response.toUpperCase()}! ${playerName} takes the pile!</span>
@@ -130,6 +133,8 @@ function formatName(name) {
 function checkLocalStorage() {
   var winsp1 = JSON.parse(localStorage.getItem('player1'))
   var winsp2 = JSON.parse(localStorage.getItem('player2'))
+  game.player1.wins = winsp1;
+  game.player2.wins = winsp2
 
   if (winsp1 != null) {
     document.querySelector('.player1__wins').innerHTML = `${winsp1} wins`

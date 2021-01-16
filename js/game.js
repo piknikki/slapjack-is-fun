@@ -99,12 +99,15 @@ class Game {
     }
 
     if (this.winner) {
+
       updateFeedback('winner', this.winner)
+      this.reset()
     }
   }
 
   updateWinCount(winningPlayer) {
     // todo make sure this isn't wiping out the storage on reload something wonky here
+    console.log("UPDATE WIN COUNT")
     this[winningPlayer].wins++
     this[winningPlayer].saveWinsToStorage()
   }
