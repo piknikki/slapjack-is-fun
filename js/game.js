@@ -8,7 +8,7 @@ class Game {
     this.winner = null;
     this.turnCount = 1;
     this.singleDeal = false;
-    this.singleDealer = '';
+    this.singleDealer = null;
   }
 
   shuffleCards(deck) {
@@ -33,9 +33,9 @@ class Game {
   alternateTurns() {
     if (this.singleDeal === true) {
       this.turn = this.singleDealer
-    } else if (this.turnCount % 2 === 0) {
+    } else if (this.turnCount % 2 === 0 && this.singleDeal === false) {
       this.turn = 'player2'
-    } else {
+    } else if (this.turnCount % 2 !== 0 && this.singleDeal === false){
       this.turn = 'player1'
     }
     return this.turn
@@ -61,18 +61,21 @@ class Game {
     var cardTwo = this.centerPile[1] ? this.centerPile[1].split('-').pop() : null
     var cardThree = this.centerPile[2] ? this.centerPile[2].split('-').pop() : null
 
-    if (cardOne === 'jack') {
+    if (this.singleDeal === true && this[player].hand.length === 0 && cardOne === 'jack') {
       this.adjustMiddlePile(player)
-      updateFeedback('jack', player)
+      updateFeedback('jack back', player)
 
-    } else if (cardOne === cardTwo) {
+    } else if (cardOne === cardTwo && this.singleDeal === false) {
       this.adjustMiddlePile(player)
       updateFeedback('double', player)
 
-    } else if (cardOne === cardThree) {
+    } else if (cardOne === cardThree && this.singleDeal === false) {
       this.adjustMiddlePile(player)
       updateFeedback('sammich', player)
 
+    } else if (cardOne === 'jack' && this.singleDeal === false) {
+      this.adjustMiddlePile(player)
+      updateFeedback('jack', player)
     } else {
       updateFeedback('bad slap', player)
       var badslap = this[player].playCard()

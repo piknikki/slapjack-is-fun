@@ -23,7 +23,7 @@ document.addEventListener('keyup', function(event) {
         game.playerDealsCard(currentPlayer)
 
         centerDeck.innerHTML = `
-          <img class="center-pile__img ${game[currentPlayer].id}__img--center-highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
+          <img class="center-pile__img ${game.player1.id}__img--center-highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
         `
         game.turnCount++
         game.alternateTurns()
@@ -37,7 +37,7 @@ document.addEventListener('keyup', function(event) {
         game.playerDealsCard(currentPlayer)
 
         centerDeck.innerHTML = `
-          <img class="center-pile__img ${game[currentPlayer].id}__img--center-highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
+          <img class="center-pile__img ${game.player2.id}__img--center-highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
         `
         game.turnCount++
         game.alternateTurns()
@@ -47,8 +47,10 @@ document.addEventListener('keyup', function(event) {
       }
       break;
     case 'f':
+      game.slap('player1')
+      break;
     case 'j':
-      game.slap(game.turn)
+      game.slap('player2')
       break;
     default:
       alert(`Player 1 controls: 'q' to deal and 'f' to slap.\nPlayer 2 controls: 'p' to deal and 'j' to slap.\nOnly valid keys accepted.`)
@@ -94,6 +96,11 @@ function triggerSingleDeal(singlePlayer) {
   game.singleDealer = singlePlayer
 }
 
+function undoSingleDeal(slapsBackIn) {
+  game.singleDeal = false
+  game.singleDealer = null
+}
+
 function updateFeedback(response, player) {
   var playerName = formatName(player)
   var chunk;
@@ -104,6 +111,11 @@ function updateFeedback(response, player) {
   if (response === 'bad slap') {
     chunk = `
       <span>${response.toUpperCase()}! ${playerName} loses a card!</span>
+    `
+  } else if (response === 'jack back') {
+    var subchunk = 'jack'
+    chunk = `
+      <span>${subchunk.toUpperCase()}! ${playerName} is back in the game!</span>
     `
   } else if (response === 'winner') {
     chunk = `
