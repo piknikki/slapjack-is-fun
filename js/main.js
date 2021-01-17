@@ -117,7 +117,12 @@ function updateFeedback(response, player) {
     chunk = `
       <span>${response.toUpperCase()}! ${playerName} loses the game!</span>
     `
-    player === 'player1' ? game.updateWinCount('player2') : game.updateWinCount('player1')
+    player === 'player1' ? game.loser = 'player1' : game.loser = 'player2'
+    player === 'player1' ? game.winner = 'player2' : game.winner = 'player1'
+
+    game.updateWinCount(game.winner)
+
+    game.adjustMiddlePile(game.winner)
     game.resetWholeDeck();
     checkLocalStorage();
 
