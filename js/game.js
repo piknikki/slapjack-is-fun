@@ -100,24 +100,18 @@ class Game {
 
     if (this.winner) {
       this.updateWinCount(this.winner)
-      this[this.winner].saveWinsToStorage()
       updateFeedback('winner', this.winner)
       this[this.winner].hand.forEach(card => this.wholeDeck.push(card))
     }
   }
 
   updateWinCount(winningPlayer) {
-    // todo make sure this isn't wiping out the storage on reload something wonky here
     this[winningPlayer].wins++
+    this[winningPlayer].saveWinsToStorage()
   }
 
-  // reset() {
-  //   // if game over, reset automagically
-  //   // shuffle deck, split the deck, maybe have ready message on feedback??
-  //   console.log('GAME GETS RESET')
-  //   this.wholeDeck = cardNames
-  //   this.shuffleCards();
-  //   this.dealDeckToPlayers();
-  // }
+  resetWholeDeck() {
+    this[this.winner].hand.forEach(card => this.wholeDeck.push(card))
+  }
 
 }
