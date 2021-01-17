@@ -1,21 +1,19 @@
 class Game {
   constructor() {
-    this.id = new Date()
-    this.player1 = new Player('player1')
-    this.player2 = new Player('player2')
-    this.wholeDeck = cardNames // this comes from the data file, still not sure about how to use this correctly
-    this.centerPile = []
-    this.turn = 'player1'
-    this.winner = null
-    this.turnCount = 1
-    this.singleDeal = false
-    this.singleDealer = ''
+    this.player1 = new Player('player1');
+    this.player2 = new Player('player2');
+    this.wholeDeck = cardNames;
+    this.centerPile = [];
+    this.turn = 'player1';
+    this.winner = null;
+    this.turnCount = 1;
+    this.singleDeal = false;
+    this.singleDealer = '';
   }
 
   shuffleCards(deck) {
-    // todo shuffle any deck of cards, not just wholeDeck (or reset wholeDeck, then shuffle?)
-
     var currentIndex = deck.length, temp, rand;
+
     while (currentIndex !== 0) {
       rand = Math.floor(Math.random() * currentIndex);
       currentIndex -= 1;
@@ -24,7 +22,6 @@ class Game {
       deck[currentIndex] = deck[rand];
       deck[rand] = temp;
     }
-    console.log("DECK GETS SHUFFLED")
     return deck
   }
 
@@ -41,16 +38,10 @@ class Game {
     } else {
       this.turn = 'player1'
     }
-    toggleHighlighting(this.turn)
     return this.turn
   }
 
-  // todo -- function to keep track of central pile
   adjustMiddlePile(player) {
-    // when shuffle and deal are done, this will be 0
-    // this.playerDealsCard() puts cards into this.centerPile array
-    // keep track of order --> probably use unshift to put on top, index 0
-    // keep track of indexes 0-2 and look for doubles and sandwiches
     this.centerPile.forEach(card => this[player].hand.push(card))
     this.shuffleCards(this[player].hand)
     this.centerPile = []
@@ -71,14 +62,17 @@ class Game {
     var cardThree = this.centerPile[2] ? this.centerPile[2].split('-').pop() : null
 
     if (cardOne === 'jack') {
+      this.adjustMiddlePile(player)
       updateFeedback('jack', player)
-      this.adjustMiddlePile(player)
+
     } else if (cardOne === cardTwo) {
+      this.adjustMiddlePile(player)
       updateFeedback('double', player)
-      this.adjustMiddlePile(player)
+
     } else if (cardOne === cardThree) {
-      updateFeedback('sammich', player)
       this.adjustMiddlePile(player)
+      updateFeedback('sammich', player)
+
     } else {
       updateFeedback('bad slap', player)
       var badslap = this[player].playCard()
@@ -88,7 +82,6 @@ class Game {
         this.player1.hand.push(badslap)
       }
     }
-
     this.determineWinner()
   }
 

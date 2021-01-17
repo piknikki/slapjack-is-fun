@@ -23,45 +23,37 @@ document.addEventListener('keyup', function(event) {
         game.playerDealsCard(currentPlayer)
 
         centerDeck.innerHTML = `
-          <img class="center-pile__img ${game.player1.id}__img--center-highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
+          <img class="center-pile__img ${game[currentPlayer].id}__img--center-highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
         `
         game.turnCount++
         game.alternateTurns()
+        toggleHighlighting(game.turn)
       } else {
         alert(`It's the other player's turn.`)
       }
-      break;
-    case 'f':
-      // player1 slap
-      game.slap('player1')
       break;
     case 'p':
       if (currentPlayer === 'player2') {
         game.playerDealsCard(currentPlayer)
 
         centerDeck.innerHTML = `
-          <img class="center-pile__img ${game.player2.id}__img--center-highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
+          <img class="center-pile__img ${game[currentPlayer].id}__img--center-highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
         `
         game.turnCount++
         game.alternateTurns()
+        toggleHighlighting(game.turn)
       } else {
         alert(`It's the other player's turn.`)
       }
       break;
+    case 'f':
     case 'j':
-      // player2 slap
-      game.slap('player2')
+      game.slap(game.turn)
       break;
     default:
       alert(`Player 1 controls: 'q' to deal and 'f' to slap.\nPlayer 2 controls: 'p' to deal and 'j' to slap.\nOnly valid keys accepted.`)
   }
 });
-
-// function checkCenterPile(arr) {
-//   if (arr === []) {
-//     centerDeck.innerHTML = ''
-//   }
-// }
 
 function runNewGame() {
   startGameButton.classList.add('hidden');
