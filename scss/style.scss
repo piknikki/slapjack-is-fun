@@ -1,6 +1,5 @@
 $player1-color: #FEC830;
 $player2-color: #7935F7;
-$center-pile-color: #399BD7;
 
 * {
   box-sizing: border-box;
@@ -53,7 +52,6 @@ main {
 
   &__img {
     width: 200px;
-    //border: 2px solid #CB68E3;
     border-radius: 10px;
     margin: 30px 0;
   }
@@ -107,11 +105,6 @@ main {
     cursor: pointer;
     text-align: center;
   }
-  &__img {
-    &--highlight {
-      box-shadow: 0 0 15px 15px $center-pile-color;
-    }
-  }
 }
 
 .hidden {
@@ -121,7 +114,7 @@ main {
 /* *** mobile *** */
 @media screen and (max-width: 1000px) {
   header {
-    padding: 40px 20px;
+    padding: 30px 20px;
     height: auto;
   }
 }
@@ -131,6 +124,10 @@ main {
     margin: 0 20px;
   }
 
+  header {
+    font-size: 1.6em;
+  }
+
   .player1,
   .player2,
   .center-pile {
@@ -138,8 +135,21 @@ main {
       width: 100px;
     }
   }
-
 }
+
+@media screen and (max-width: 600px) {
+  header {
+    text-align: center;
+    font-size: 1.6em;
+  }
+
+  .center-pile {
+    &__startbtn {
+      font-size: 1em;
+    }
+  }
+}
+
 @media screen and (max-width: 460px) {
   main {
     width: 100%;
@@ -152,10 +162,6 @@ main {
   .center-pile {
     &__img {
       margin: 10px 0;
-
-      &--active {
-        box-shadow: 0 0 5px 5px #FEC830;
-      }
     }
   }
 }

@@ -81,7 +81,6 @@ function toggleHighlighting(player) {
 }
 
 function checkEmptyDeck(player) {
-  // todo -- might be able to refactor this to two functions of hide/show empty deck
   if (game[player].hand.length === 0 && player === 'player1') {
     feedbackSelector.innerHTML = `While your deck is empty, if you slap anything other than a jack, you'll lose.`
     player1front.classList.add('hidden');
