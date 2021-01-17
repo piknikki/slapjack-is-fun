@@ -66,7 +66,6 @@ class Game {
       this.singleDeal = false
       this.singleDealer = null
       this.alternateTurns()
-      this.turnCount++
       updateFeedback('jack back', player)
 
     } else if (cardOne === cardTwo && this.singleDeal === false) {

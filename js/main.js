@@ -23,6 +23,7 @@ document.addEventListener('keyup', function(event) {
         centerDeck.innerHTML = `
           <img class="center-pile__img ${game.player1.id}__img--center-highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
         `
+        checkEmptyDeck(currentPlayer)
         game.turnCount++
         game.alternateTurns()
         toggleHighlighting(game.turn)
@@ -37,6 +38,7 @@ document.addEventListener('keyup', function(event) {
         centerDeck.innerHTML = `
           <img class="center-pile__img ${game.player2.id}__img--center-highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
         `
+        checkEmptyDeck(currentPlayer)
         game.turnCount++
         game.alternateTurns()
         toggleHighlighting(game.turn)
@@ -54,7 +56,6 @@ document.addEventListener('keyup', function(event) {
       alert(`Player 1 controls: 'q' to deal and 'f' to slap.\nPlayer 2 controls: 'p' to deal and 'j' to slap.\nOnly valid keys accepted.`)
   }
   console.log("current player hand after deal ", game[currentPlayer].hand)
-  console.log("game middle pile", game.centerPile)
 });
 
 function runNewGame() {
@@ -80,11 +81,11 @@ function toggleHighlighting(player) {
 }
 
 function checkEmptyDeck(player) {
-  if (game[player].hand.length < 1 && player === 'player1') {
+  if (game[player].hand.length === 0 && player === 'player1') {
     player1front.classList.add('hidden');
     player1empty.classList.remove('hidden');
     triggerSingleDeal('player2')
-  } else if (game[player].hand.length < 1 && player === 'player2') {
+  } else if (game[player].hand.length === 0 && player === 'player2') {
     player2front.classList.add('hidden');
     player2empty.classList.remove('hidden');
     triggerSingleDeal('player1')
@@ -99,6 +100,9 @@ function triggerSingleDeal(singlePlayer) {
 function undoSingleDeal(slapsBackIn) {
   game.singleDeal = false
   game.singleDealer = null
+  game.turn++
+  game.alternateTurns()
+  toggleHighlighting(slapsBackIn)
 }
 
 function updateFeedback(response, player) {
@@ -142,6 +146,7 @@ function updateFeedback(response, player) {
     chunk = `
       <span>${subchunk.toUpperCase()}! ${playerName} is back in the game!</span>
     `
+    undoSingleDeal(player)
   } else if (response === 'winner') {
     chunk = `
       <span>${response.toUpperCase()}! ${playerName} wins the game!</span>
