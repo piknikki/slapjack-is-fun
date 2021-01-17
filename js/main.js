@@ -12,9 +12,7 @@ startGameButton.addEventListener('click', runNewGame);
 window.addEventListener('load', checkLocalStorage)
 
 document.addEventListener('keyup', function(event) {
-
   var currentPlayer = game.turn
-  console.log(game[currentPlayer].hand)
   feedbackSelector.innerHTML = ''
 
   switch (event.key) {
@@ -55,6 +53,8 @@ document.addEventListener('keyup', function(event) {
     default:
       alert(`Player 1 controls: 'q' to deal and 'f' to slap.\nPlayer 2 controls: 'p' to deal and 'j' to slap.\nOnly valid keys accepted.`)
   }
+  console.log("current player hand after deal ", game[currentPlayer].hand)
+  console.log("game middle pile", game.centerPile)
 });
 
 function runNewGame() {
@@ -108,12 +108,37 @@ function updateFeedback(response, player) {
       <img class="player1__img" src="assets/blank.png" alt="empty card">
     `
 
-  if (response === 'bad slap') {
+  if (response === 'bad slap' && game.singleDeal === true && player !== game.singleDealer) {
+    // player who slapped has empty deck loses
+    chunk = `
+      <span>${response.toUpperCase()}! ${playerName} loses the game!</span>
+    `
+    // game[player].saveWinsToStorage()
+    player === 'player1' ? game.player1.wins++ : game.player2.wins++
+    checkLocalStorage();
+
+    player1front.classList.remove('hidden');
+    player1empty.classList.add('hidden');
+    player2front.classList.remove('hidden');
+    player2empty.classList.add('hidden');
+
+    centerDeck.classList.add('hidden');
+    startGameButton.classList.remove('hidden');
+  } else if (response === 'bad slap') {
     chunk = `
       <span>${response.toUpperCase()}! ${playerName} loses a card!</span>
     `
   } else if (response === 'jack back') {
     var subchunk = 'jack'
+
+    if (player === 'player1') {
+      player1front.classList.remove('hidden');
+      player1empty.classList.add('hidden');
+    } else if (player === 'player2') {
+      player2front.classList.remove('hidden');
+      player2empty.classList.add('hidden');
+    }
+
     chunk = `
       <span>${subchunk.toUpperCase()}! ${playerName} is back in the game!</span>
     `

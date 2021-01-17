@@ -63,6 +63,10 @@ class Game {
 
     if (this.singleDeal === true && this[player].hand.length === 0 && cardOne === 'jack') {
       this.adjustMiddlePile(player)
+      this.singleDeal = false
+      this.singleDealer = null
+      this.alternateTurns()
+      this.turnCount++
       updateFeedback('jack back', player)
 
     } else if (cardOne === cardTwo && this.singleDeal === false) {
@@ -73,7 +77,7 @@ class Game {
       this.adjustMiddlePile(player)
       updateFeedback('sammich', player)
 
-    } else if (cardOne === 'jack' && this.singleDeal === false) {
+    } else if (cardOne === 'jack') {
       this.adjustMiddlePile(player)
       updateFeedback('jack', player)
     } else {
