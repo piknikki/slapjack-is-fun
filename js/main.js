@@ -109,7 +109,7 @@ function updateFeedback(response, player) {
       <img class="player1__img" src="assets/blank.png" alt="empty card">
     `
 
-  if (response === 'bad') {
+  if (response === 'bad slap') {
     chunk = `
       <span>${response.toUpperCase()}! ${playerName} loses a card!</span>
     `

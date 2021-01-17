@@ -24,7 +24,7 @@ class Game {
       deck[currentIndex] = deck[rand];
       deck[rand] = temp;
     }
-    ("DECK GETS SHUFFLED")
+    console.log("DECK GETS SHUFFLED")
     return deck
   }
 
@@ -46,11 +46,14 @@ class Game {
   }
 
   // todo -- function to keep track of central pile
-  adjustMiddlePile() {
+  adjustMiddlePile(player) {
     // when shuffle and deal are done, this will be 0
     // this.playerDealsCard() puts cards into this.centerPile array
     // keep track of order --> probably use unshift to put on top, index 0
     // keep track of indexes 0-2 and look for doubles and sandwiches
+    this.centerPile.forEach(card => this[player].hand.push(card))
+    this.shuffleCards(this[player].hand)
+    this.centerPile = []
   }
 
   playerDealsCard(player) {
@@ -69,21 +72,15 @@ class Game {
 
     if (cardOne === 'jack') {
       updateFeedback('jack', player)
-      this.centerPile.forEach(card => this[player].hand.push(card))
-      this.shuffleCards(this[player].hand)
-      this.centerPile = []
+      this.adjustMiddlePile(player)
     } else if (cardOne === cardTwo) {
       updateFeedback('double', player)
-      this.centerPile.forEach(card => this[player].hand.push(card))
-      this.shuffleCards(this[player].hand)
-      this.centerPile = []
+      this.adjustMiddlePile(player)
     } else if (cardOne === cardThree) {
       updateFeedback('sammich', player)
-      this.centerPile.forEach(card => this[player].hand.push(card))
-      this.shuffleCards(this[player].hand)
-      this.centerPile = []
+      this.adjustMiddlePile(player)
     } else {
-      updateFeedback('bad', player)
+      updateFeedback('bad slap', player)
       var badslap = this[player].playCard()
       if (this[player].id === 'player1') {
         this.player2.hand.push(badslap)
