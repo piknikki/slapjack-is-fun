@@ -100,6 +100,7 @@ class Game {
 
     if (this.winner) {
       this.updateWinCount(this.winner)
+      this[this.winner].saveWinsToStorage()
       updateFeedback('winner', this.winner)
       this[this.winner].hand.forEach(card => this.wholeDeck.push(card))
     }

@@ -9,7 +9,6 @@ var centerDeck = document.querySelector('.center-pile__deck');
 var feedbackSelector = document.querySelector('.feedback-message');
 
 startGameButton.addEventListener('click', runNewGame);
-window.addEventListener('load', checkLocalStorage)
 
 document.addEventListener('keyup', function(event) {
   var currentPlayer = game.turn
@@ -61,13 +60,15 @@ document.addEventListener('keyup', function(event) {
 function runNewGame() {
   startGameButton.classList.add('hidden');
   centerDeck.classList.toggle('hidden');
-  checkLocalStorage();
+
   toggleHighlighting('player1');
   feedbackSelector.innerHTML = '';
 
   game = new Game();
   game.shuffleCards(game.wholeDeck);
   game.dealDeckToPlayers();
+
+  checkLocalStorage();
 }
 
 function toggleHighlighting(player) {
@@ -112,12 +113,10 @@ function updateFeedback(response, player) {
       <img class="player1__img" src="assets/blank.png" alt="empty card">
     `
 
-  if (response === 'bad slap' && game.singleDeal === true && player !== game.singleDealer) {
-    // player who slapped has empty deck loses
+  if (response === 'bad slap' && game.singleDeal === true ) {
     chunk = `
       <span>${response.toUpperCase()}! ${playerName} loses the game!</span>
     `
-    // game[player].saveWinsToStorage()
     player === 'player1' ? game.player1.wins++ : game.player2.wins++
     checkLocalStorage();
 
@@ -151,7 +150,7 @@ function updateFeedback(response, player) {
     chunk = `
       <span>${response.toUpperCase()}! ${playerName} wins the game!</span>
     `
-    game[player].saveWinsToStorage()
+
     checkLocalStorage();
 
     player1front.classList.remove('hidden');
@@ -179,25 +178,15 @@ function checkLocalStorage() {
 
   if (winsp1 != null) {
     document.querySelector('.player1__wins').innerHTML = `${winsp1} wins`
+    game.player1.wins = winsp1
   } else {
     document.querySelector('.player1__wins').innerHTML = `0 wins`
   }
 
   if (winsp2 != null) {
     document.querySelector('.player2__wins').innerHTML = `${winsp2} wins`
+    game.player2.wins = winsp2
   } else {
     document.querySelector('.player2__wins').innerHTML = `0 wins`
   }
 }
-
-// function toggleEmptyCard(emptyPlayer) {
-//
-//   if (emptyPlayer === 'player1' && game.singleDeal === true) {
-//     player1front.classList.toggle('hidden');
-//     player1empty.classList.toggle('hidden');
-//   } else if (emptyPlayer === 'player2' && game.singleDeal === true) {
-//     player2front.classList.toggle('hidden');
-//     player2empty.classList.toggle('hidden');
-//   }
-//
-// }
