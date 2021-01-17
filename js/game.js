@@ -1,21 +1,19 @@
 class Game {
   constructor() {
-    this.id = new Date()
-    this.player1 = new Player('player1')
-    this.player2 = new Player('player2')
-    this.wholeDeck = cardNames // this comes from the data file, still not sure about how to use this correctly
-    this.centerPile = []
-    this.turn = 'player1'
-    this.winner = null
-    this.turnCount = 1
-    this.singleDeal = false
-    this.singleDealer = ''
+    this.player1 = new Player('player1');
+    this.player2 = new Player('player2');
+    this.wholeDeck = cardNames;
+    this.centerPile = [];
+    this.turn = 'player1';
+    this.winner = null;
+    this.turnCount = 1;
+    this.singleDeal = false;
+    this.singleDealer = null;
   }
 
   shuffleCards(deck) {
-    // todo shuffle any deck of cards, not just wholeDeck (or reset wholeDeck, then shuffle?)
-
     var currentIndex = deck.length, temp, rand;
+
     while (currentIndex !== 0) {
       rand = Math.floor(Math.random() * currentIndex);
       currentIndex -= 1;
@@ -35,21 +33,18 @@ class Game {
   alternateTurns() {
     if (this.singleDeal === true) {
       this.turn = this.singleDealer
-    } else if (this.turnCount % 2 === 0) {
+    } else if (this.turnCount % 2 === 0 && this.singleDeal === false) {
       this.turn = 'player2'
-    } else {
+    } else if (this.turnCount % 2 !== 0 && this.singleDeal === false){
       this.turn = 'player1'
     }
-    toggleHighlighting(this.turn)
     return this.turn
   }
 
-  // todo -- function to keep track of central pile
-  adjustMiddlePile() {
-    // when shuffle and deal are done, this will be 0
-    // this.playerDealsCard() puts cards into this.centerPile array
-    // keep track of order --> probably use unshift to put on top, index 0
-    // keep track of indexes 0-2 and look for doubles and sandwiches
+  adjustMiddlePile(player) {
+    this.centerPile.forEach(card => this[player].hand.push(card))
+    this.shuffleCards(this[player].hand)
+    this.centerPile = []
   }
 
   playerDealsCard(player) {
@@ -62,25 +57,30 @@ class Game {
   }
 
   slap(player) {
-    // todo --> add to back end of their hand (use push)
     var cardOne = this.centerPile[0].split('-').pop()
     var cardTwo = this.centerPile[1] ? this.centerPile[1].split('-').pop() : null
     var cardThree = this.centerPile[2] ? this.centerPile[2].split('-').pop() : null
 
-    if (cardOne === 'jack') {
-      updateFeedback('jack', player)
-      this.centerPile.forEach(card => this[player].hand.push(card))
-      this.centerPile = []
-    } else if (cardOne === cardTwo) {
+    if (this.singleDeal === true && this[player].hand.length === 0 && cardOne === 'jack') {
+      this.adjustMiddlePile(player)
+      this.singleDeal = false
+      this.singleDealer = null
+      this.alternateTurns()
+      updateFeedback('jack back', player)
+
+    } else if (cardOne === cardTwo && this.singleDeal === false) {
+      this.adjustMiddlePile(player)
       updateFeedback('double', player)
-      this.centerPile.forEach(card => this[player].hand.push(card))
-      this.centerPile = []
-    } else if (cardOne === cardThree) {
+
+    } else if (cardOne === cardThree && this.singleDeal === false) {
+      this.adjustMiddlePile(player)
       updateFeedback('sammich', player)
-      this.centerPile.forEach(card => this[player].hand.push(card))
-      this.centerPile = []
+
+    } else if (cardOne === 'jack') {
+      this.adjustMiddlePile(player)
+      updateFeedback('jack', player)
     } else {
-      updateFeedback('bad', player)
+      updateFeedback('bad slap', player)
       var badslap = this[player].playCard()
       if (this[player].id === 'player1') {
         this.player2.hand.push(badslap)
@@ -88,7 +88,6 @@ class Game {
         this.player1.hand.push(badslap)
       }
     }
-    this.shuffleCards(this[player].hand)
     this.determineWinner()
   }
 
@@ -101,6 +100,7 @@ class Game {
 
     if (this.winner) {
       this.updateWinCount(this.winner)
+      this[this.winner].saveWinsToStorage()
       updateFeedback('winner', this.winner)
       this[this.winner].hand.forEach(card => this.wholeDeck.push(card))
     }
