@@ -80,6 +80,8 @@ function toggleHighlighting(player) {
   }
 }
 
+// todo --> I've tried abstracting these class changes out, but I can't get it to work. I'd appreciate feedback about how
+//  I could do that if possible, so it can be a dynamic function instead of being so rigid
 function checkEmptyDeck(player) {
   if (game[player].hand.length === 0 && player === 'player1') {
     feedbackSelector.innerHTML = `While your deck is empty, if you slap anything other than a jack, you'll lose.`
@@ -106,6 +108,8 @@ function undoSingleDeal() {
   game.alternateTurns()
 }
 
+// todo --> this function is huge. I tried abstracting out some of the hide/show functionality but it doesn't
+//  work right. I'd appreciate any feedback on how to slim this monster down.
 function updateFeedback(response, player) {
   var playerName = formatName(player)
   var chunk;
@@ -117,8 +121,9 @@ function updateFeedback(response, player) {
     chunk = `
       <span>${response.toUpperCase()}! ${playerName} loses the game!</span>
     `
-    player === 'player1' ? game.loser = 'player1' : game.loser = 'player2'
-    player === 'player1' ? game.winner = 'player2' : game.winner = 'player1'
+    // if bad slap and single deal === ran out of cards and then slapped something other than a jack
+    //   so the player who slapped bad is loser and other player is winner
+    player === 'player1' ? game.loser = 'player1' : game.winner = 'player2'
 
     game.updateWinCount(game.winner)
 

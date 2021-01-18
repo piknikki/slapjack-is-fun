@@ -26,6 +26,7 @@ class Game {
     return deck
   }
 
+  // todo --> is there a better way to do this? This destroys the original data, forcing me to re-create it with reset
   dealDeckToPlayers() {
     this.player1.hand = this.wholeDeck.splice(0, 26);
     this.player2.hand = this.wholeDeck.splice(0, 26);
@@ -57,6 +58,8 @@ class Game {
     }
   }
 
+  // todo --> this method is huge, and it also calls functions from main.js. I'd appreciate any feedback
+  //  on ways to slim it down and remove those calls because I think we're not supposed to do that.
   slap(player) {
     var cardOne = this.centerPile[0].split('-').pop()
     var cardTwo = this.centerPile[1] ? this.centerPile[1].split('-').pop() : null
@@ -80,6 +83,7 @@ class Game {
     } else if (cardOne === 'jack') {
       this.adjustMiddlePile(player)
       updateFeedback('jack', player)
+
     } else {
       updateFeedback('bad slap', player)
       var badslap = this[player].playCard()
