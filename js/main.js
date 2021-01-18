@@ -54,7 +54,6 @@ document.addEventListener('keyup', function(event) {
     default:
       alert(`Player 1 controls: 'q' to deal and 'f' to slap.\nPlayer 2 controls: 'p' to deal and 'j' to slap.\nOnly valid keys accepted.`)
   }
-  console.log("current player hand after deal ", game[currentPlayer].hand)
 });
 
 function runNewGame() {
@@ -83,10 +82,12 @@ function toggleHighlighting(player) {
 
 function checkEmptyDeck(player) {
   if (game[player].hand.length === 0 && player === 'player1') {
+    feedbackSelector.innerHTML = `While your deck is empty, if you slap anything other than a jack, you'll lose.`
     player1front.classList.add('hidden');
     player1empty.classList.remove('hidden');
     triggerSingleDeal('player2')
   } else if (game[player].hand.length === 0 && player === 'player2') {
+    feedbackSelector.innerHTML = `While your deck is empty, if you slap anything other than a jack, you'll lose.`
     player2front.classList.add('hidden');
     player2empty.classList.remove('hidden');
     triggerSingleDeal('player1')
@@ -98,12 +99,11 @@ function triggerSingleDeal(singlePlayer) {
   game.singleDealer = singlePlayer
 }
 
-function undoSingleDeal(slapsBackIn) {
+function undoSingleDeal() {
   game.singleDeal = false
   game.singleDealer = null
-  game.turn++
+  game.turnCount++
   game.alternateTurns()
-  toggleHighlighting(slapsBackIn)
 }
 
 function updateFeedback(response, player) {
@@ -117,7 +117,13 @@ function updateFeedback(response, player) {
     chunk = `
       <span>${response.toUpperCase()}! ${playerName} loses the game!</span>
     `
-    player === 'player1' ? game.player1.wins++ : game.player2.wins++
+    player === 'player1' ? game.loser = 'player1' : game.loser = 'player2'
+    player === 'player1' ? game.winner = 'player2' : game.winner = 'player1'
+
+    game.updateWinCount(game.winner)
+
+    game.adjustMiddlePile(game.winner)
+    game.resetWholeDeck();
     checkLocalStorage();
 
     player1front.classList.remove('hidden');
@@ -145,7 +151,8 @@ function updateFeedback(response, player) {
     chunk = `
       <span>${subchunk.toUpperCase()}! ${playerName} is back in the game!</span>
     `
-    undoSingleDeal(player)
+    undoSingleDeal()
+    toggleHighlighting(player)
   } else if (response === 'winner') {
     chunk = `
       <span>${response.toUpperCase()}! ${playerName} wins the game!</span>

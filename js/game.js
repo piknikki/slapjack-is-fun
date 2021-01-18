@@ -2,10 +2,11 @@ class Game {
   constructor() {
     this.player1 = new Player('player1');
     this.player2 = new Player('player2');
-    this.wholeDeck = cardNames;
+    this.wholeDeck = cardNames.slice();
     this.centerPile = [];
     this.turn = 'player1';
     this.winner = null;
+    this.loser = null;
     this.turnCount = 1;
     this.singleDeal = false;
     this.singleDealer = null;
@@ -94,30 +95,24 @@ class Game {
   determineWinner() {
     if (this.player1.hand.length === 52 && this.player2.hand.length === 0) {
       this.winner = 'player1'
+      updateFeedback('winner', this.winner)
     } else if (this.player2.hand.length === 52 && this.player1.hand.length === 0) {
       this.winner = 'player2'
+      updateFeedback('winner', this.winner)
     }
 
     if (this.winner) {
       this.updateWinCount(this.winner)
-      this[this.winner].saveWinsToStorage()
-      updateFeedback('winner', this.winner)
       this[this.winner].hand.forEach(card => this.wholeDeck.push(card))
     }
   }
 
   updateWinCount(winningPlayer) {
-    // todo make sure this isn't wiping out the storage on reload something wonky here
     this[winningPlayer].wins++
+    this[winningPlayer].saveWinsToStorage()
   }
 
-  // reset() {
-  //   // if game over, reset automagically
-  //   // shuffle deck, split the deck, maybe have ready message on feedback??
-  //   console.log('GAME GETS RESET')
-  //   this.wholeDeck = cardNames
-  //   this.shuffleCards();
-  //   this.dealDeckToPlayers();
-  // }
-
+  resetWholeDeck() {
+     this.wholeDeck = cardNames.slice();
+  }
 }
