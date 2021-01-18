@@ -1,10 +1,14 @@
 var game;
 
 var startGameButton = document.querySelector('.center-pile__startbtn');
-var player1front = document.querySelector('.player1__img-front');
-var player1empty = document.querySelector('.player1__img-empty');
-var player2front = document.querySelector('.player2__img-front');
-var player2empty = document.querySelector('.player2__img-empty');
+var player1Title = document.querySelector('.player1__title');
+var player2Title = document.querySelector('.player2__title');
+var player1Front = document.querySelector('.player1__img-front');
+var player1Empty = document.querySelector('.player1__img-empty');
+var player2Front = document.querySelector('.player2__img-front');
+var player2Empty = document.querySelector('.player2__img-empty');
+var player1Wins = document.querySelector('.player1__wins')
+var player2Wins = document.querySelector('.player2__wins')
 var centerDeck = document.querySelector('.center-pile__deck');
 var feedbackSelector = document.querySelector('.feedback-message');
 
@@ -16,7 +20,6 @@ document.addEventListener('keyup', function(event) {
 
   switch (event.key) {
     case 'q':
-      console.log(currentPlayer)
       if (currentPlayer === 'player1') {
         game.playerDealsCard(currentPlayer);
 
@@ -75,11 +78,11 @@ function runNewGame() {
 
 function toggleHighlighting(player) {
   if (player === 'player1') {
-    document.querySelector('.player1__title').classList.add('player1__title--highlight');
-    document.querySelector('.player2__title').classList.remove('player2__title--highlight');
+    player1Title.classList.add('player1__title--highlight');
+    player2Title.classList.remove('player2__title--highlight');
   } else {
-    document.querySelector('.player1__title').classList.remove('player1__title--highlight');
-    document.querySelector('.player2__title').classList.add('player2__title--highlight');
+    player1Title.classList.remove('player1__title--highlight');
+    player2Title.classList.add('player2__title--highlight');
   }
 }
 
@@ -90,8 +93,9 @@ function checkEmptyDeck(player) {
         While one player's deck is empty, if either player slaps anything other than a jack, they'll lose.
       </p>
     `
-    player1front.classList.add('hidden');
-    player1empty.classList.remove('hidden');
+    showEmptyCard(player)
+    // player1Front.classList.add('hidden');
+    // player1Empty.classList.remove('hidden');
     triggerSingleDeal('player2')
   } else if (game[player].hand.length === 0 && player === 'player2') {
     feedbackSelector.innerHTML = `
@@ -99,8 +103,9 @@ function checkEmptyDeck(player) {
         While one player's deck is empty, if either player slaps anything other than a jack, they'll lose.
       </p>
     `
-    player2front.classList.add('hidden');
-    player2empty.classList.remove('hidden');
+    showEmptyCard(player)
+    // player2Front.classList.add('hidden');
+    // player2Empty.classList.remove('hidden');
     triggerSingleDeal('player1')
   }
 }
@@ -139,12 +144,14 @@ function updateFeedback() {
 
     game.adjustMiddlePile(game.winner)
     game.determineWinner();
-    // checkLocalStorage();
 
-    player1front.classList.remove('hidden');
-    player1empty.classList.add('hidden');
-    player2front.classList.remove('hidden');
-    player2empty.classList.add('hidden');
+    hideEmptyCard('player1')
+    hideEmptyCard('player2')
+
+    // player1Front.classList.remove('hidden');
+    // player1Empty.classList.add('hidden');
+    // player2Front.classList.remove('hidden');
+    // player2Empty.classList.add('hidden');
 
     centerDeck.classList.add('hidden');
     startGameButton.classList.remove('hidden');
@@ -155,13 +162,17 @@ function updateFeedback() {
   } else if (response === 'jack back') {
     var subchunk = 'jack'
 
-    if (player === 'player1') {
-      player1front.classList.remove('hidden');
-      player1empty.classList.add('hidden');
-    } else if (player === 'player2') {
-      player2front.classList.remove('hidden');
-      player2empty.classList.add('hidden');
-    }
+    hideEmptyCard(player)
+
+    // if (player === 'player1') {
+    //   hideEmptyCard(player)
+    //   // player1Front.classList.remove('hidden');
+    //   // player1Empty.classList.add('hidden');
+    // } else if (player === 'player2') {
+    //   hideEmptyCard()
+    //   player2Front.classList.remove('hidden');
+    //   player2Empty.classList.add('hidden');
+    // }
 
     chunk = `
       <span>${subchunk.toUpperCase()}! ${playerName} is back in the game!</span>
@@ -171,11 +182,13 @@ function updateFeedback() {
     chunk = `
       <span>${response.toUpperCase()}! ${playerName} wins the game!</span>
     `
+    hideEmptyCard('player1')
+    hideEmptyCard('player2')
 
-    player1front.classList.remove('hidden');
-    player1empty.classList.add('hidden');
-    player2front.classList.remove('hidden');
-    player2empty.classList.add('hidden');
+    // player1Front.classList.remove('hidden');
+    // player1Empty.classList.add('hidden');
+    // player2Front.classList.remove('hidden');
+    // player2Empty.classList.add('hidden');
 
     centerDeck.classList.add('hidden');
     startGameButton.classList.remove('hidden');
@@ -196,16 +209,36 @@ function checkLocalStorage() {
   var winsp2 = JSON.parse(localStorage.getItem('player2'));
 
   if (winsp1 != null) {
-    document.querySelector('.player1__wins').innerHTML = `${winsp1} wins`
+    player1Wins.innerHTML = `${winsp1} wins`
     game.player1.wins = winsp1
   } else {
-    document.querySelector('.player1__wins').innerHTML = `0 wins`
+    player1Wins.innerHTML = `0 wins`
   }
 
   if (winsp2 != null) {
-    document.querySelector('.player2__wins').innerHTML = `${winsp2} wins`
+    player2Wins.innerHTML = `${winsp2} wins`
     game.player2.wins = winsp2
   } else {
-    document.querySelector('.player2__wins').innerHTML = `0 wins`
+    player2Wins.innerHTML = `0 wins`
+  }
+}
+
+function showEmptyCard(player) {
+  if (player === 'player1') {
+    player1Front.classList.add('hidden');
+    player1Empty.classList.remove('hidden');
+  } else if (player === 'player2') {
+    player2Front.classList.add('hidden');
+    player2Empty.classList.remove('hidden');
+  }
+}
+
+function hideEmptyCard(player) {
+  if (player === 'player1') {
+    player1Front.classList.remove('hidden');
+    player1Empty.classList.add('hidden');
+  } else if (player === 'player2') {
+    player2Front.classList.remove('hidden');
+    player2Empty.classList.add('hidden');
   }
 }

@@ -11,8 +11,7 @@ class Game {
     this.singleDeal = false;
     this.singleDealer = null;
     this.feedback = '';
-    this.feedbackPlayer = ''
-    // todo note to self:  put a response here to be called by updateFeedback as game.response
+    this.feedbackPlayer = '';
   }
 
   shuffleCards(deck) {
