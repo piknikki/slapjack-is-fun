@@ -107,8 +107,7 @@ class Game {
     if (this.winner) {
       this.updateWinCount(this.winner)
       checkLocalStorage();
-      // this[this.winner].hand.forEach(card => this.wholeDeck.push(card))
-      this[this.winner].hand = []
+      this.reset()
     }
   }
 
@@ -117,9 +116,6 @@ class Game {
     this[winningPlayer].saveWinsToStorage()
   }
 
-  // resetWholeDeck() {
-  //    this.wholeDeck = cardNames.slice();
-  // }
   reset() {
     this.player1.hand = []
     this.player2.hand = []
