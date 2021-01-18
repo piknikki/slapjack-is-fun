@@ -72,3 +72,6 @@ my organization in those files. Next I added a data file to hold the names of th
 feel that I have a better idea of those concepts, but still need a solid overall philosophy on how to strategically plan 
   for the best separation of those things from the very beginning so that I don't have to refactor as the project evolves. I 
   think that's still my biggest challenge.
+
+* In addition, this application is responsive across small, medium, and large breakpoints, and successfully passes WAVE 
+  accessibility tests for Errors and Contrast Errors.
