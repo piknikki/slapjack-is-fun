@@ -28,8 +28,8 @@ class Game {
 
   // todo --> is there a better way to do this? This destroys the original data, forcing me to re-create it with reset
   dealDeckToPlayers() {
-    this.player1.hand = this.wholeDeck.splice(0, 26);
-    this.player2.hand = this.wholeDeck.splice(0, 26);
+    this.player1.hand = this.wholeDeck.slice(0, 26);
+    this.player2.hand = this.wholeDeck.slice(26);
   }
 
   alternateTurns() {
@@ -107,7 +107,9 @@ class Game {
 
     if (this.winner) {
       this.updateWinCount(this.winner)
-      this[this.winner].hand.forEach(card => this.wholeDeck.push(card))
+      checkLocalStorage();
+      // this[this.winner].hand.forEach(card => this.wholeDeck.push(card))
+      this[this.winner].hand = []
     }
   }
 
@@ -116,7 +118,12 @@ class Game {
     this[winningPlayer].saveWinsToStorage()
   }
 
-  resetWholeDeck() {
-     this.wholeDeck = cardNames.slice();
+  // resetWholeDeck() {
+  //    this.wholeDeck = cardNames.slice();
+  // }
+  reset() {
+    this.player1.hand = []
+    this.player2.hand = []
+    this.centerPile = []
   }
 }

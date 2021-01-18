@@ -106,6 +106,7 @@ function undoSingleDeal() {
   game.singleDealer = null
   game.turnCount++
   game.alternateTurns()
+  toggleHighlighting(game.turn)
 }
 
 // todo --> this function is huge. I tried abstracting out some of the hide/show functionality but it doesn't
@@ -123,12 +124,12 @@ function updateFeedback(response, player) {
     `
     // if bad slap and single deal === ran out of cards and then slapped something other than a jack
     //   so the player who slapped bad is loser and other player is winner
-    player === 'player1' ? game.loser = 'player1' : game.winner = 'player2'
+    player === 'player1' ? game.loser = 'player1' : game.loser = 'player2'
+    player === 'player1' ? game.winner = 'player2' : game.winner = 'player1'
 
-    game.updateWinCount(game.winner)
+    // game.updateWinCount(game.winner)
 
     game.adjustMiddlePile(game.winner)
-    game.resetWholeDeck();
     checkLocalStorage();
 
     player1front.classList.remove('hidden');
@@ -157,13 +158,10 @@ function updateFeedback(response, player) {
       <span>${subchunk.toUpperCase()}! ${playerName} is back in the game!</span>
     `
     undoSingleDeal()
-    toggleHighlighting(player)
   } else if (response === 'winner') {
     chunk = `
       <span>${response.toUpperCase()}! ${playerName} wins the game!</span>
     `
-
-    checkLocalStorage();
 
     player1front.classList.remove('hidden');
     player1empty.classList.add('hidden');
