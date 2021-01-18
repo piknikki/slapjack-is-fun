@@ -10,6 +10,9 @@ class Game {
     this.turnCount = 1;
     this.singleDeal = false;
     this.singleDealer = null;
+    this.feedback = '';
+    this.feedbackPlayer = ''
+    // todo note to self:  put a response here to be called by updateFeedback as game.response
   }
 
   shuffleCards(deck) {
@@ -27,8 +30,8 @@ class Game {
   }
 
   dealDeckToPlayers() {
-    this.player1.hand = this.wholeDeck.splice(0, 26);
-    this.player2.hand = this.wholeDeck.splice(0, 26);
+    this.player1.hand = this.wholeDeck.slice(0, 26);
+    this.player2.hand = this.wholeDeck.slice(26);
   }
 
   alternateTurns() {
@@ -62,26 +65,31 @@ class Game {
     var cardTwo = this.centerPile[1] ? this.centerPile[1].split('-').pop() : null
     var cardThree = this.centerPile[2] ? this.centerPile[2].split('-').pop() : null
 
-    if (this.singleDeal === true && this[player].hand.length === 0 && cardOne === 'jack') {
+    if (this.singleDeal === true && this[player].hand.length === 0 && cardOne === 'jack') { // empty hand gets back in game
       this.adjustMiddlePile(player)
       this.singleDeal = false
       this.singleDealer = null
       this.alternateTurns()
-      updateFeedback('jack back', player)
+      this.slapUpdateFeedback('jack back', player)
+
+    } else if (this.singleDeal === true && this[player].hand.length > 0 && cardOne === 'jack') { // non empty hand wins
+      this.adjustMiddlePile(player)
+      this.slapUpdateFeedback('winner', player)
 
     } else if (cardOne === cardTwo && this.singleDeal === false) {
       this.adjustMiddlePile(player)
-      updateFeedback('double', player)
+      this.slapUpdateFeedback('double', player)
 
     } else if (cardOne === cardThree && this.singleDeal === false) {
       this.adjustMiddlePile(player)
-      updateFeedback('sammich', player)
+      this.slapUpdateFeedback('sammich', player)
 
     } else if (cardOne === 'jack') {
       this.adjustMiddlePile(player)
-      updateFeedback('jack', player)
+      this.slapUpdateFeedback('jack', player)
+
     } else {
-      updateFeedback('bad slap', player)
+      this.slapUpdateFeedback('bad slap', player)
       var badslap = this[player].playCard()
       if (this[player].id === 'player1') {
         this.player2.hand.push(badslap)
@@ -90,6 +98,11 @@ class Game {
       }
     }
     this.determineWinner()
+  }
+
+  slapUpdateFeedback(response, player) {
+    this.feedback = response;
+    this.feedbackPlayer = player
   }
 
   determineWinner() {
@@ -103,7 +116,8 @@ class Game {
 
     if (this.winner) {
       this.updateWinCount(this.winner)
-      this[this.winner].hand.forEach(card => this.wholeDeck.push(card))
+      checkLocalStorage();
+      this.reset()
     }
   }
 
@@ -112,7 +126,9 @@ class Game {
     this[winningPlayer].saveWinsToStorage()
   }
 
-  resetWholeDeck() {
-     this.wholeDeck = cardNames.slice();
+  reset() {
+    this.player1.hand = []
+    this.player2.hand = []
+    this.centerPile = []
   }
 }

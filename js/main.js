@@ -16,8 +16,9 @@ document.addEventListener('keyup', function(event) {
 
   switch (event.key) {
     case 'q':
+      console.log(currentPlayer)
       if (currentPlayer === 'player1') {
-        game.playerDealsCard(currentPlayer)
+        game.playerDealsCard(currentPlayer);
 
         centerDeck.innerHTML = `
           <img class="center-pile__img ${game.player1.id}__img--center-highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
@@ -32,7 +33,7 @@ document.addEventListener('keyup', function(event) {
       break;
     case 'p':
       if (currentPlayer === 'player2') {
-        game.playerDealsCard(currentPlayer)
+        game.playerDealsCard(currentPlayer);
 
         centerDeck.innerHTML = `
           <img class="center-pile__img ${game.player2.id}__img--center-highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
@@ -47,9 +48,11 @@ document.addEventListener('keyup', function(event) {
       break;
     case 'f':
       game.slap('player1')
+      updateFeedback()
       break;
     case 'j':
       game.slap('player2')
+      updateFeedback()
       break;
     default:
       alert(`Player 1 controls: 'q' to deal and 'f' to slap.\nPlayer 2 controls: 'p' to deal and 'j' to slap.\nOnly valid keys accepted.`)
@@ -82,12 +85,20 @@ function toggleHighlighting(player) {
 
 function checkEmptyDeck(player) {
   if (game[player].hand.length === 0 && player === 'player1') {
-    feedbackSelector.innerHTML = `While your deck is empty, if you slap anything other than a jack, you'll lose.`
+    feedbackSelector.innerHTML = `
+      <p class="feedback-message__instructions--p3">
+        While one player's deck is empty, if either player slaps anything other than a jack, they'll lose.
+      </p>
+    `
     player1front.classList.add('hidden');
     player1empty.classList.remove('hidden');
     triggerSingleDeal('player2')
   } else if (game[player].hand.length === 0 && player === 'player2') {
-    feedbackSelector.innerHTML = `While your deck is empty, if you slap anything other than a jack, you'll lose.`
+    feedbackSelector.innerHTML = `
+      <p class="feedback-message__instructions--p3">
+        While one player's deck is empty, if either player slaps anything other than a jack, they'll lose.
+      </p>
+    `
     player2front.classList.add('hidden');
     player2empty.classList.remove('hidden');
     triggerSingleDeal('player1')
@@ -104,11 +115,16 @@ function undoSingleDeal() {
   game.singleDealer = null
   game.turnCount++
   game.alternateTurns()
+  toggleHighlighting(game.turn)
 }
 
-function updateFeedback(response, player) {
+// todo --> put empty card changing into two other functions
+function updateFeedback() {
+  var player = game.feedbackPlayer
+  var response = game.feedback
   var playerName = formatName(player)
   var chunk;
+
   centerDeck.innerHTML = `
       <img class="player1__img" src="assets/blank.png" alt="empty card">
     `
@@ -117,14 +133,13 @@ function updateFeedback(response, player) {
     chunk = `
       <span>${response.toUpperCase()}! ${playerName} loses the game!</span>
     `
+
     player === 'player1' ? game.loser = 'player1' : game.loser = 'player2'
     player === 'player1' ? game.winner = 'player2' : game.winner = 'player1'
 
-    game.updateWinCount(game.winner)
-
     game.adjustMiddlePile(game.winner)
-    game.resetWholeDeck();
-    checkLocalStorage();
+    game.determineWinner();
+    // checkLocalStorage();
 
     player1front.classList.remove('hidden');
     player1empty.classList.add('hidden');
@@ -152,13 +167,10 @@ function updateFeedback(response, player) {
       <span>${subchunk.toUpperCase()}! ${playerName} is back in the game!</span>
     `
     undoSingleDeal()
-    toggleHighlighting(player)
   } else if (response === 'winner') {
     chunk = `
       <span>${response.toUpperCase()}! ${playerName} wins the game!</span>
     `
-
-    checkLocalStorage();
 
     player1front.classList.remove('hidden');
     player1empty.classList.add('hidden');

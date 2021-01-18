@@ -10,7 +10,6 @@ class Player {
       return this.hand.shift();
     } else if (this.hand === []) {
       checkEmptyDeck(this.id)
-      console.log('this id', typeof this.id, this.id)
     }
 
   }
