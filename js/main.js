@@ -26,6 +26,7 @@ document.addEventListener('keyup', function(event) {
         game.turnCount++
         game.alternateTurns()
         toggleHighlighting(game.turn)
+        // note to self:  maybe call updateFeedback here and with other keypress
       } else {
         alert(`It's the other player's turn.`)
       }
@@ -80,16 +81,22 @@ function toggleHighlighting(player) {
   }
 }
 
-// todo --> I've tried abstracting these class changes out, but I can't get it to work. I'd appreciate feedback about how
-//  I could do that if possible, so it can be a dynamic function instead of being so rigid
 function checkEmptyDeck(player) {
   if (game[player].hand.length === 0 && player === 'player1') {
-    feedbackSelector.innerHTML = `While your deck is empty, if you slap anything other than a jack, you'll lose.`
+    feedbackSelector.innerHTML = `
+      <p class="feedback-message__instructions--p3">
+        While one player's deck is empty, if either player slaps anything other than a jack, they'll lose.
+      </p>
+    `
     player1front.classList.add('hidden');
     player1empty.classList.remove('hidden');
     triggerSingleDeal('player2')
   } else if (game[player].hand.length === 0 && player === 'player2') {
-    feedbackSelector.innerHTML = `While your deck is empty, if you slap anything other than a jack, you'll lose.`
+    feedbackSelector.innerHTML = `
+      <p class="feedback-message__instructions--p3">
+        While one player's deck is empty, if either player slaps anything other than a jack, they'll lose.
+      </p>
+    `
     player2front.classList.add('hidden');
     player2empty.classList.remove('hidden');
     triggerSingleDeal('player1')
@@ -109,9 +116,9 @@ function undoSingleDeal() {
   toggleHighlighting(game.turn)
 }
 
-// todo --> this function is huge. I tried abstracting out some of the hide/show functionality but it doesn't
-//  work right. I'd appreciate any feedback on how to slim this monster down.
+// todo --> this function is huge. I'd appreciate any feedback on how to slim this monster down.
 function updateFeedback(response, player) {
+  // todo note to self:  call that game.response from the constructor where ever we need a response
   var playerName = formatName(player)
   var chunk;
   centerDeck.innerHTML = `
@@ -122,12 +129,9 @@ function updateFeedback(response, player) {
     chunk = `
       <span>${response.toUpperCase()}! ${playerName} loses the game!</span>
     `
-    // if bad slap and single deal === ran out of cards and then slapped something other than a jack
-    //   so the player who slapped bad is loser and other player is winner
+
     player === 'player1' ? game.loser = 'player1' : game.loser = 'player2'
     player === 'player1' ? game.winner = 'player2' : game.winner = 'player1'
-
-    // game.updateWinCount(game.winner)
 
     game.adjustMiddlePile(game.winner)
     checkLocalStorage();

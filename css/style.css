@@ -17,7 +17,7 @@ header {
   flex-flow: row nowrap;
   height: 100px;
   align-items: center;
-  font-size: 2em;
+  font-size: 1.8em;
 }
 
 main {
@@ -26,6 +26,14 @@ main {
   flex-flow: row nowrap;
   justify-content: space-around;
   align-items: center;
+}
+
+.feedback-message__instructions {
+  font-size: 1em;
+}
+.feedback-message__instructions--p3 {
+  padding: 10px 20px;
+  text-align: center;
 }
 
 .player1,

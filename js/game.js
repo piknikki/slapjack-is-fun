@@ -10,6 +10,7 @@ class Game {
     this.turnCount = 1;
     this.singleDeal = false;
     this.singleDealer = null;
+    // todo note to self:  put a response here to be called by updateFeedback as game.response
   }
 
   shuffleCards(deck) {
@@ -57,8 +58,7 @@ class Game {
     }
   }
 
-  // todo --> this method is huge, and it also calls functions from main.js. I'd appreciate any feedback
-  //  on ways to slim it down and remove those calls because I think we're not supposed to do that.
+  // todo --> note to self: set update in the constructor, then check that value in updateFeedback
   slap(player) {
     var cardOne = this.centerPile[0].split('-').pop()
     var cardTwo = this.centerPile[1] ? this.centerPile[1].split('-').pop() : null

@@ -20,7 +20,7 @@ header {
   flex-flow: row nowrap;
   height: 100px;
   align-items: center;
-  font-size: 2em;
+  font-size: 1.8em;
 }
 
 main {
@@ -29,6 +29,17 @@ main {
   flex-flow: row nowrap;
   justify-content: space-around;
   align-items: center;
+}
+
+.feedback-message {
+  &__instructions {
+    font-size: 1em;
+
+    &--p3 {
+      padding: 10px 20px;
+      text-align: center;
+    }
+  }
 }
 
 .player1,
@@ -46,10 +57,6 @@ main {
     padding: 10px 10px;
   }
 
-  &__deck {
-
-  }
-
   &__img {
     width: 200px;
     border-radius: 10px;
@@ -59,7 +66,6 @@ main {
   &__wins {
     margin: 5px;
   }
-
 }
 
 .player1 {
