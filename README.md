@@ -37,19 +37,27 @@ center to start a new game).
   ![Bad slap](./assets/readme-images/bad_slap_card.png)
 
 What if you're out of cards, you ask?
+
+![Empty deck](./assets/readme-images/empty_notification.png)
+
 * When you run out, you can get back in the game by slapping a Jack. 
 
   ![Jack back](./assets/readme-images/jack_back.png)
 
 * If either player slaps anything else, any time, they'll lose.
 
-    ![Jack back](./assets/readme-images/bad_slap_lose.png)
+  ![Jack back](./assets/readme-images/bad_slap_lose.png)
 
 * Once you're back in the game, both players can once again use doubles and sammiches.
 
-Other rules
+Other rules/misc info
 * You can only deal if it's your turn (you'll know that because your player title will be highlighted).
 * You can only use the keys described above. Pressing any other keys will give you a notification of the keys you can choose from.
+* The player with all the cards wins!
+
+  ![Winner winner chicken dinner](./assets/readme-images/winner.png)
+
+* Your scores will be retained and tracked when you refresh or when you start a new game.
 
 ### About me and this project
 * I'm Nikki and I wrote all the code for this project. I started with basic HTML and CSS, then added BEM and Sass to spice up 
