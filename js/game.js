@@ -10,6 +10,8 @@ class Game {
     this.turnCount = 1;
     this.singleDeal = false;
     this.singleDealer = null;
+    this.feedback = '';
+    this.feedbackPlayer = ''
     // todo note to self:  put a response here to be called by updateFeedback as game.response
   }
 
@@ -58,33 +60,36 @@ class Game {
     }
   }
 
-  // todo --> note to self: set update in the constructor, then check that value in updateFeedback
   slap(player) {
     var cardOne = this.centerPile[0].split('-').pop()
     var cardTwo = this.centerPile[1] ? this.centerPile[1].split('-').pop() : null
     var cardThree = this.centerPile[2] ? this.centerPile[2].split('-').pop() : null
 
-    if (this.singleDeal === true && this[player].hand.length === 0 && cardOne === 'jack') {
+    if (this.singleDeal === true && this[player].hand.length === 0 && cardOne === 'jack') { // empty hand gets back in game
       this.adjustMiddlePile(player)
       this.singleDeal = false
       this.singleDealer = null
       this.alternateTurns()
-      updateFeedback('jack back', player)
+      this.slapUpdateFeedback('jack back', player)
+
+    } else if (this.singleDeal === true && this[player].hand.length > 0 && cardOne === 'jack') { // non empty hand wins
+      this.adjustMiddlePile(player)
+      this.slapUpdateFeedback('winner', player)
 
     } else if (cardOne === cardTwo && this.singleDeal === false) {
       this.adjustMiddlePile(player)
-      updateFeedback('double', player)
+      this.slapUpdateFeedback('double', player)
 
     } else if (cardOne === cardThree && this.singleDeal === false) {
       this.adjustMiddlePile(player)
-      updateFeedback('sammich', player)
+      this.slapUpdateFeedback('sammich', player)
 
     } else if (cardOne === 'jack') {
       this.adjustMiddlePile(player)
-      updateFeedback('jack', player)
+      this.slapUpdateFeedback('jack', player)
 
     } else {
-      updateFeedback('bad slap', player)
+      this.slapUpdateFeedback('bad slap', player)
       var badslap = this[player].playCard()
       if (this[player].id === 'player1') {
         this.player2.hand.push(badslap)
@@ -93,6 +98,11 @@ class Game {
       }
     }
     this.determineWinner()
+  }
+
+  slapUpdateFeedback(response, player) {
+    this.feedback = response;
+    this.feedbackPlayer = player
   }
 
   determineWinner() {

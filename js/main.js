@@ -16,8 +16,9 @@ document.addEventListener('keyup', function(event) {
 
   switch (event.key) {
     case 'q':
+      console.log(currentPlayer)
       if (currentPlayer === 'player1') {
-        game.playerDealsCard(currentPlayer)
+        game.playerDealsCard(currentPlayer);
 
         centerDeck.innerHTML = `
           <img class="center-pile__img ${game.player1.id}__img--center-highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
@@ -26,14 +27,13 @@ document.addEventListener('keyup', function(event) {
         game.turnCount++
         game.alternateTurns()
         toggleHighlighting(game.turn)
-        // note to self:  maybe call updateFeedback here and with other keypress
       } else {
         alert(`It's the other player's turn.`)
       }
       break;
     case 'p':
       if (currentPlayer === 'player2') {
-        game.playerDealsCard(currentPlayer)
+        game.playerDealsCard(currentPlayer);
 
         centerDeck.innerHTML = `
           <img class="center-pile__img ${game.player2.id}__img--center-highlight" src="assets/card-fronts/${game.centerPile[0]}.png" alt="player card">
@@ -48,9 +48,11 @@ document.addEventListener('keyup', function(event) {
       break;
     case 'f':
       game.slap('player1')
+      updateFeedback()
       break;
     case 'j':
       game.slap('player2')
+      updateFeedback()
       break;
     default:
       alert(`Player 1 controls: 'q' to deal and 'f' to slap.\nPlayer 2 controls: 'p' to deal and 'j' to slap.\nOnly valid keys accepted.`)
@@ -116,11 +118,13 @@ function undoSingleDeal() {
   toggleHighlighting(game.turn)
 }
 
-// todo --> this function is huge. I'd appreciate any feedback on how to slim this monster down.
-function updateFeedback(response, player) {
-  // todo note to self:  call that game.response from the constructor where ever we need a response
+// todo --> put empty card changing into two other functions
+function updateFeedback() {
+  var player = game.feedbackPlayer
+  var response = game.feedback
   var playerName = formatName(player)
   var chunk;
+
   centerDeck.innerHTML = `
       <img class="player1__img" src="assets/blank.png" alt="empty card">
     `
@@ -134,7 +138,8 @@ function updateFeedback(response, player) {
     player === 'player1' ? game.winner = 'player2' : game.winner = 'player1'
 
     game.adjustMiddlePile(game.winner)
-    checkLocalStorage();
+    game.determineWinner();
+    // checkLocalStorage();
 
     player1front.classList.remove('hidden');
     player1empty.classList.add('hidden');
