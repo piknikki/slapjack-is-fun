@@ -12,15 +12,39 @@ center to start a new game).
 * Player 2 keys:
     - `p` to deal a card
     - `j` to slap
+  
+  ![Beginning game, before clicking start](./assets/readme-images/before_start_click.png)
+
+* Click start!
+
+  ![After clicking start](./assets/readme-images/after_start_click.png)
     
-* Players alternate turns dealing.
+* Players alternate turns dealing. (you'll know it's your turn because your player title will be highlighted)
 * Slap on Jack, win the pile (your hand is automatically shuffled).
+
+  ![Jack slap](./assets/readme-images/jack.png)
+
 * Slap on doubles, win the pile (your hand is automatically shuffled).
+
+  ![Double slap](./assets/readme-images/double.png)
+
 * Slap on sammich, win the pile (your hand is automatically shuffled).
+  
+  ![Sammich slap](./assets/readme-images/sammich.png)
+  
 * Slap any other time, and you lose a card to your opponent (your top card gets put on bottom of their hand).
 
+  ![Bad slap](./assets/readme-images/bad_slap_card.png)
+
 What if you're out of cards, you ask?
-* When you run out, you can get back in the game by slapping a Jack. If either player slaps anything else, any time, they'll lose.
+* When you run out, you can get back in the game by slapping a Jack. 
+
+  ![Jack back](./assets/readme-images/jack_back.png)
+
+* If either player slaps anything else, any time, they'll lose.
+
+    ![Jack back](./assets/readme-images/bad_slap_lose.png)
+
 * Once you're back in the game, both players can once again use doubles and sammiches.
 
 Other rules
