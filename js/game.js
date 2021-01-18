@@ -26,7 +26,6 @@ class Game {
     return deck
   }
 
-  // todo --> is there a better way to do this? This destroys the original data, forcing me to re-create it with reset
   dealDeckToPlayers() {
     this.player1.hand = this.wholeDeck.slice(0, 26);
     this.player2.hand = this.wholeDeck.slice(26);
