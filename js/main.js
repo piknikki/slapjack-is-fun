@@ -87,26 +87,16 @@ function toggleHighlighting(player) {
 }
 
 function checkEmptyDeck(player) {
-  if (game[player].hand.length === 0 && player === 'player1') {
+  var notEmptyPlayer = '';
+  player === 'player1' ? notEmptyPlayer = 'player2' : notEmptyPlayer = 'player1'
+  if (game[player].hand.length === 0) {
     feedbackSelector.innerHTML = `
       <p class="feedback-message__instructions--p3">
         While one player's deck is empty, if either player slaps anything other than a jack, they'll lose.
       </p>
     `
     showEmptyCard(player)
-    // player1Front.classList.add('hidden');
-    // player1Empty.classList.remove('hidden');
-    triggerSingleDeal('player2')
-  } else if (game[player].hand.length === 0 && player === 'player2') {
-    feedbackSelector.innerHTML = `
-      <p class="feedback-message__instructions--p3">
-        While one player's deck is empty, if either player slaps anything other than a jack, they'll lose.
-      </p>
-    `
-    showEmptyCard(player)
-    // player2Front.classList.add('hidden');
-    // player2Empty.classList.remove('hidden');
-    triggerSingleDeal('player1')
+    triggerSingleDeal(notEmptyPlayer)
   }
 }
 
@@ -123,7 +113,6 @@ function undoSingleDeal() {
   toggleHighlighting(game.turn)
 }
 
-// todo --> put empty card changing into two other functions
 function updateFeedback() {
   var player = game.feedbackPlayer
   var response = game.feedback
@@ -148,11 +137,6 @@ function updateFeedback() {
     hideEmptyCard('player1')
     hideEmptyCard('player2')
 
-    // player1Front.classList.remove('hidden');
-    // player1Empty.classList.add('hidden');
-    // player2Front.classList.remove('hidden');
-    // player2Empty.classList.add('hidden');
-
     centerDeck.classList.add('hidden');
     startGameButton.classList.remove('hidden');
   } else if (response === 'bad slap') {
@@ -164,16 +148,6 @@ function updateFeedback() {
 
     hideEmptyCard(player)
 
-    // if (player === 'player1') {
-    //   hideEmptyCard(player)
-    //   // player1Front.classList.remove('hidden');
-    //   // player1Empty.classList.add('hidden');
-    // } else if (player === 'player2') {
-    //   hideEmptyCard()
-    //   player2Front.classList.remove('hidden');
-    //   player2Empty.classList.add('hidden');
-    // }
-
     chunk = `
       <span>${subchunk.toUpperCase()}! ${playerName} is back in the game!</span>
     `
@@ -184,11 +158,6 @@ function updateFeedback() {
     `
     hideEmptyCard('player1')
     hideEmptyCard('player2')
-
-    // player1Front.classList.remove('hidden');
-    // player1Empty.classList.add('hidden');
-    // player2Front.classList.remove('hidden');
-    // player2Empty.classList.add('hidden');
 
     centerDeck.classList.add('hidden');
     startGameButton.classList.remove('hidden');
