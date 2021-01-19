@@ -87,14 +87,17 @@ function toggleHighlighting(player) {
 }
 
 function checkEmptyDeck(player) {
-  var notEmptyPlayer = '';
+  var notEmptyPlayer;
   player === 'player1' ? notEmptyPlayer = 'player2' : notEmptyPlayer = 'player1';
 
   if (game[player].hand.length === 0) {
     feedbackSelector.innerHTML = `
-      <p class="feedback-message__instructions--p3">
-        While one player's deck is empty, if either player slaps anything other than a jack, they'll lose.
-      </p>
+        <p class="feedback-message__instructions--p3">
+          <span class="${player}__instructions--highlight">${formatName(player)}</span> While your deck is empty, you can get back in the game with a Jack. Any other slap will be an automatic loss.
+        </p>
+        <p class="feedback-message__instructions--p3">
+          <span class="${notEmptyPlayer}__instructions--highlight">${formatName(notEmptyPlayer)}</span> The only way for you to win now is to slap a Jack.
+        </p>
     `
     showEmptyCard(player);
     triggerSingleDeal(notEmptyPlayer);
@@ -115,10 +118,13 @@ function undoSingleDeal() {
 }
 
 function updateFeedback() {
-  var player = game.feedbackPlayer
-  var response = game.feedback
-  var playerName = formatName(player)
+  var player = game.feedbackPlayer;
+  var otherPlayer;
+  var response = game.feedback;
+  var playerName = formatName(player);
   var chunk;
+
+  player === 'player1' ? otherPlayer = 'player2' : otherPlayer = 'player1';
 
   centerDeck.innerHTML = `
       <img class="player1__img" src="assets/blank.png" alt="empty card">
@@ -129,14 +135,12 @@ function updateFeedback() {
       <span>${response.toUpperCase()}! ${playerName} loses the game!</span>
     `
 
-    player === 'player1' ? game.loser = 'player1' : game.loser = 'player2'
-    player === 'player1' ? game.winner = 'player2' : game.winner = 'player1'
-
-    game.adjustMiddlePile(game.winner)
+    determineLoser(player);
+    game.adjustMiddlePile(game.winner);
     game.determineWinner();
 
-    hideEmptyCard('player1')
-    hideEmptyCard('player2')
+    hideEmptyCard(player);
+    hideEmptyCard(otherPlayer);
 
     centerDeck.classList.add('hidden');
     startGameButton.classList.remove('hidden');
@@ -157,8 +161,8 @@ function updateFeedback() {
     chunk = `
       <span>${response.toUpperCase()}! ${playerName} wins the game!</span>
     `
-    hideEmptyCard('player1')
-    hideEmptyCard('player2')
+    hideEmptyCard(player)
+    hideEmptyCard(otherPlayer)
 
     centerDeck.classList.add('hidden');
     startGameButton.classList.remove('hidden');
@@ -211,4 +215,9 @@ function hideEmptyCard(player) {
     player2Front.classList.remove('hidden');
     player2Empty.classList.add('hidden');
   }
+}
+
+function determineLoser(player) {
+  player === 'player1' ? game.loser = 'player1' : game.loser = 'player2'
+  player === 'player1' ? game.winner = 'player2' : game.winner = 'player1'
 }
