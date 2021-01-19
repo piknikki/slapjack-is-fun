@@ -11,8 +11,7 @@ class Game {
     this.singleDeal = false;
     this.singleDealer = null;
     this.feedback = '';
-    this.feedbackPlayer = ''
-    // todo note to self:  put a response here to be called by updateFeedback as game.response
+    this.feedbackPlayer = '';
   }
 
   shuffleCards(deck) {
@@ -108,10 +107,10 @@ class Game {
   determineWinner() {
     if (this.player1.hand.length === 52 && this.player2.hand.length === 0) {
       this.winner = 'player1'
-      updateFeedback('winner', this.winner)
+      this.slapUpdateFeedback('winner', this.winner)
     } else if (this.player2.hand.length === 52 && this.player1.hand.length === 0) {
       this.winner = 'player2'
-      updateFeedback('winner', this.winner)
+      this.slapUpdateFeedback('winner', this.winner)
     }
 
     if (this.winner) {

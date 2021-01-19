@@ -38,6 +38,27 @@ main {
     &--p3 {
       padding: 10px 20px;
       text-align: center;
+      font-size: 0.8em;
+    }
+  }
+}
+
+.player1 {
+  &__instructions {
+    &--highlight {
+      padding: 5px;
+      border-radius: 5px;
+      box-shadow: 0 0 5px 5px $player1-color;
+    }
+  }
+}
+
+.player2 {
+  &__instructions {
+    &--highlight {
+      padding: 5px;
+      border-radius: 5px;
+      box-shadow: 0 0 5px 5px $player2-color;
     }
   }
 }

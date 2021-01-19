@@ -34,6 +34,19 @@ main {
 .feedback-message__instructions--p3 {
   padding: 10px 20px;
   text-align: center;
+  font-size: 0.8em;
+}
+
+.player1__instructions--highlight {
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px 5px #FEC830;
+}
+
+.player2__instructions--highlight {
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px 5px #7935F7;
 }
 
 .player1,
