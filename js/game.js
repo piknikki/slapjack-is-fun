@@ -107,10 +107,10 @@ class Game {
   determineWinner() {
     if (this.player1.hand.length === 52 && this.player2.hand.length === 0) {
       this.winner = 'player1'
-      updateFeedback('winner', this.winner)
+      this.slapUpdateFeedback('winner', this.winner)
     } else if (this.player2.hand.length === 52 && this.player1.hand.length === 0) {
       this.winner = 'player2'
-      updateFeedback('winner', this.winner)
+      this.slapUpdateFeedback('winner', this.winner)
     }
 
     if (this.winner) {

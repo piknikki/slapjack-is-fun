@@ -88,15 +88,16 @@ function toggleHighlighting(player) {
 
 function checkEmptyDeck(player) {
   var notEmptyPlayer = '';
-  player === 'player1' ? notEmptyPlayer = 'player2' : notEmptyPlayer = 'player1'
+  player === 'player1' ? notEmptyPlayer = 'player2' : notEmptyPlayer = 'player1';
+
   if (game[player].hand.length === 0) {
     feedbackSelector.innerHTML = `
       <p class="feedback-message__instructions--p3">
         While one player's deck is empty, if either player slaps anything other than a jack, they'll lose.
       </p>
     `
-    showEmptyCard(player)
-    triggerSingleDeal(notEmptyPlayer)
+    showEmptyCard(player);
+    triggerSingleDeal(notEmptyPlayer);
   }
 }
 
